@@ -213,7 +213,7 @@ public class Ex1
      * @param y2 - second point's y value
      * @return the distance between the points.
      */
-    public static double distanceOf2Points(double x1,double x2, double y1, double y2)
+    private static double distanceOf2Points(double x1,double x2, double y1, double y2)
     {
         return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
     }
@@ -263,9 +263,28 @@ public class Ex1
 	 */
 	public static double[] getPolynomFromString(String p)
     {
-		double [] ans = ZERO;//  -1.0x^2 +3.0x +2.0
-
-
+        String[] splitString =  p.split(" ");
+        double [] ans = ZERO;
+        if(splitString.length > 0)                                  //  "-1.0x^2 +3.0x +2.0"
+        {
+            ans = new double[splitString.length];
+            for(int i=0;i<splitString.length;i++)
+            {
+                double a = 0;
+                int xIndexInString = -1;
+                for (int j = 0; j < splitString[i].length(); j++)
+                {
+                    if (splitString[i].charAt(j) == 'x')
+                    {
+                        xIndexInString = j;
+                    }
+                }
+                if(xIndexInString > 0)
+                {
+                    a = Double.parseDouble(splitString[i].split("x")[0]);
+                }
+            }
+        }
 		return ans;
 	}
 	/**
