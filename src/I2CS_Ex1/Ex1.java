@@ -297,9 +297,8 @@ public class Ex1
             for(int i=0;i<splitString.length;i++)
             {
                 // ============ Get Pow ============
-                int indexPow = splitString[i].indexOf("^");
                 int pow = -1;
-                if (indexPow > -1)
+                if (splitString[i].contains("^"))
                 {
                     pow = Integer.parseInt(splitString[0].split("\\^")[1]);
                 }
@@ -312,7 +311,7 @@ public class Ex1
                     pow = 0;
                 }
                 // ============ Get Coefficient ============
-                if(splitString[i].contains("x"))
+                if(pow > 0)
                 {
                     String a = splitString[i].split("x")[0];
                     if(a.isEmpty())
@@ -321,7 +320,7 @@ public class Ex1
                     }
                     else
                     {
-                        ans[pow] = Double.parseDouble(splitString[i].split("x")[0]);
+                        ans[pow] = Double.parseDouble(a);
                     }
                 }
                 else
