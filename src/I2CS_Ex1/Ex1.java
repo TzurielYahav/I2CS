@@ -12,7 +12,8 @@ package I2CS_Ex1;
  * @author boaz.benmoshe
 
  */
-public class Ex1 {
+public class Ex1
+{
 	/** Epsilon value for numerical computation, it serves as a "close enough" threshold. */
 	public static final double EPS = 0.001; // the epsilon to be used for the root approximation.
 	/** The zero polynomial function is represented as an array with a single (0) entry. */
@@ -23,7 +24,8 @@ public class Ex1 {
 	 * @param x
 	 * @return f(x) - the polynomial function value at x.
 	 */
-	public static double f(double[] poly, double x) {
+	public static double f(double[] poly, double x)
+    {
 		double ans = 0;
 		for(int i=0;i<poly.length;i++) {
 			double c = Math.pow(x, i);
@@ -41,7 +43,8 @@ public class Ex1 {
 	 * @param eps - epsilon (positive small value (often 10^-3, or 10^-6).
 	 * @return an x value (x1<=x<=x2) for which |p(x)| < eps.
 	 */
-	public static double root_rec(double[] p, double x1, double x2, double eps) {
+	public static double root_rec(double[] p, double x1, double x2, double eps)
+    {
 		double f1 = f(p,x1);
 		double x12 = (x1+x2)/2;
 		double f12 = f(p,x12);
@@ -57,14 +60,27 @@ public class Ex1 {
 	 * @param yy
 	 * @return an array of doubles representing the coefficients of the polynom.
 	 */
-	public static double[] PolynomFromPoints(double[] xx, double[] yy) {
+	public static double[] PolynomFromPoints(double[] xx, double[] yy)
+    {
 		double [] ans = null;
 		int lx = xx.length;
 		int ly = yy.length;
-		if(xx!=null && yy!=null && lx==ly && lx>1 && lx<4) {
-		/** add you code below
+		if(xx!=null && yy!=null && lx==ly && lx>1 && lx<4)
+        {
+            ans = new double[3];
+            if(lx == 2)
+            {
+                // ========================
 
-		/////////////////// */
+                // ========================
+            }
+            else
+            {
+                 double denom = (xx[0] - xx[1]) * (xx[0] - xx[2]) * (xx[1] - xx[2]);
+                ans[2] = (xx[2] * (yy[1] - yy[0]) + xx[1] * (yy[0] - yy[2]) + xx[0] * (yy[2] - yy[1])) / denom;
+                ans[1] = (Math.pow(xx[2],2) * (yy[0] - yy[1]) + Math.pow(xx[1],2) * (yy[2] - yy[0]) + Math.pow(xx[0],2) * (yy[1] - yy[2])) / denom;
+                ans[0] = (xx[1] * xx[2] * (xx[1] - xx[2]) * yy[0] + xx[2] * xx[0] * (xx[2] - xx[0]) * yy[1] + xx[0] * xx[1] * (xx[0] - xx[1]) * yy[2]) / denom;
+            }
 		}
 		return ans;
 	}
@@ -74,12 +90,34 @@ public class Ex1 {
 	 * @param p2 second polynomial function
 	 * @return true iff p1 represents the same polynomial function as p2.
 	 */
-	public static boolean equals(double[] p1, double[] p2) {
-		boolean ans = true;
-        /** add you code below
-
-         /////////////////// */
-		return ans;
+	public static boolean equals(double[] p1, double[] p2)
+    {
+		if(p1!=null && p2!=null && p1.length== p2.length)
+        {
+            // === 1 ===
+            /* */
+            for (int i=0;i<p1.length;i++)
+            {
+                if(f(p1, i) != f(p2, i))
+                {
+                    return false;
+                }
+            }
+            // */
+            // === 2 ===
+            /* */
+            for (int i=0;i<p1.length;i++)
+            {
+                if(p1[i] != p2[i])
+                {
+                    return false;
+                }
+            }
+            // */
+            // =========
+            return true;
+        }
+		return false;
 	}
 
 	/** 
@@ -88,15 +126,27 @@ public class Ex1 {
 	 * @param poly the polynomial function represented as an array of doubles
 	 * @return String representing the polynomial function:
 	 */
-	public static String poly(double[] poly) {
-		String ans = "";
-		if(poly.length==0) {ans="0";}
-		else {
-            /** add you code below
-
-             /////////////////// */
+	public static String poly(double[] poly)
+    {
+		StringBuilder ans = new StringBuilder();
+		if(poly.length==0) {
+            ans = new StringBuilder("0");}
+		else
+        {
+            for (int i=0;i<poly.length;i++)
+            {
+                if(i > 0 && poly[i] > 0)
+                {
+                    ans.append("+");
+                }
+                ans.append(poly[poly.length - i - 1]);
+                if (i < poly.length - 1)
+                {
+                    ans.append(" ");
+                }
+            }
 		}
-		return ans;
+		return ans.toString();
 	}
 	/**
 	 * Given two polynomial functions (p1,p2), a range [x1,x2] and an epsilon eps. This function computes an x value (x1<=x<=x2)
@@ -108,12 +158,19 @@ public class Ex1 {
 	 * @param eps - epsilon (positive small value (often 10^-3, or 10^-6).
 	 * @return an x value (x1<=x<=x2) for which |p1(x) - p2(x)| < eps.
 	 */
-	public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps) {
-		double ans = x1;
-        /** add you code below
+	public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps)
+    {
+		// double ans = x1;
 
-         /////////////////// */
-		return ans;
+        double f1 = f(p1,x1);
+        double f2 = f(p2,x1);
+        double x12 = (x1+x2)/2;
+        double f12 = f(p1,x12);
+        double f22 = f(p2,x12);
+        if (Math.abs(f12 - f22) < eps) {return x12;}
+        if((f12 - f22) * (f1 - f2) <= 0) {return sameValue(p1, p2, x1, x12, eps);}
+        else {return sameValue(p1, p2, x12, x2, eps);}
+		// return ans;
 	}
 	/**
 	 * Given a polynomial function (p), a range [x1,x2] and an integer with the number (n) of sample points.
@@ -127,13 +184,39 @@ public class Ex1 {
 	 * @param numberOfSegments - (A positive integer value (1,2,...).
 	 * @return the length approximation of the function between f(x1) and f(x2).
 	 */
-	public static double length(double[] p, double x1, double x2, int numberOfSegments) {
-		double ans = x1;
-        /** add you code below
-
-         /////////////////// */
+	public static double length(double[] p, double x1, double x2, int numberOfSegments)
+    {
+		double ans = 0;
+        double xSampleLength = x2 - x1 / numberOfSegments;
+        double a1 = x1;
+        double a2 = 0;
+        double b1 = 0;
+        double b2 = 0;
+        for(int i=0;i<numberOfSegments;i++)
+        {
+            a2 = a1 + xSampleLength;
+            b1 = f(p,a1);
+            b2 = f(p,a2);
+            ans += distanceOf2Points(a1,a2,b1,b2);
+            a1 = a2;
+        }
 		return ans;
 	}
+
+    /**
+     * Given two points (x1,y1) , (x2,y2).
+     * This function computes the distance between the two points.
+     * The area is computed using (https://www.mathsisfun.com/algebra/distance-2-points.html)
+     * @param x1 - first point's x value
+     * @param x2 - second point's x value
+     * @param y1 - first point's y value
+     * @param y2 - second point's y value
+     * @return the distance between the points.
+     */
+    public static double distanceOf2Points(double x1,double x2, double y1, double y2)
+    {
+        return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
+    }
 	
 	/**
 	 * Given two polynomial functions (p1,p2), a range [x1,x2] and an integer representing the number of Trapezoids between the functions (number of samples in on each polynom).
@@ -146,11 +229,28 @@ public class Ex1 {
 	 * @param numberOfTrapezoid - a natural number representing the number of Trapezoids between x1 and x2.
 	 * @return the approximated area between the two polynomial functions within the [x1,x2] range.
 	 */
-	public static double area(double[] p1,double[]p2, double x1, double x2, int numberOfTrapezoid) {
-		double ans = 0;
-        /** add you code below
-
-         /////////////////// */
+	public static double area(double[] p1,double[]p2, double x1, double x2, int numberOfTrapezoid)
+    {
+        double ans = 0;
+        double xSampleLength = x2 - x1 / numberOfTrapezoid;
+        double a1 = x1 + xSampleLength / 2;
+        double b1 = 0;
+        double b2 = 0;
+        for(int i=0;i<numberOfTrapezoid;i++)
+        {
+            b1 = f(p1,a1);
+            b2 = f(p2,a1);
+            if(b1 > b2)
+            {
+                ans += b1 - b2;
+            }
+            else
+            {
+                ans += b2 - b1;
+            }
+            a1 += xSampleLength;
+        }
+        ans *= xSampleLength;
 		return ans;
 	}
 	/**
@@ -161,11 +261,11 @@ public class Ex1 {
 	 * @param p - a String representing polynomial function.
 	 * @return
 	 */
-	public static double[] getPolynomFromString(String p) {
+	public static double[] getPolynomFromString(String p)
+    {
 		double [] ans = ZERO;//  -1.0x^2 +3.0x +2.0
-        /** add you code below
 
-         /////////////////// */
+
 		return ans;
 	}
 	/**
