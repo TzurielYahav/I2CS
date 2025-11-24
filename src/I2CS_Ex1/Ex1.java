@@ -283,7 +283,7 @@ public class Ex1
             int indexOfFirstPow = splitString[0].indexOf("^");
             if(indexOfFirstPow > -1)
             {
-                ans = new double[Integer.parseInt(splitString[0].split("\\^")[1])];
+                ans = new double[Integer.parseInt(splitString[0].split("\\^")[1]) + 1];
             }
             else if (splitString[0].contains("x"))
             {
