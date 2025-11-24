@@ -267,21 +267,44 @@ public class Ex1
         double [] ans = ZERO;
         if(splitString.length > 0)                                  //  "-1.0x^2 +3.0x +2.0"
         {
-            ans = new double[splitString.length];
+            // ============ Find Poly Power ============
+            int indexOfFirstPow = splitString[0].indexOf("^");
+            if(indexOfFirstPow > -1)
+            {
+                ans = new double[Integer.parseInt(splitString[0].split("\\^")[1])];
+            }
+            else if (splitString[0].contains("x"))
+            {
+                ans = new double[2];
+            }
+            else
+            {
+                ans = new double[1];
+            }
+            // ============ Build Poly ============
             for(int i=0;i<splitString.length;i++)
             {
-                double a = 0;
-                int xIndexInString = -1;
-                for (int j = 0; j < splitString[i].length(); j++)
+                int indexPow = splitString[i].indexOf("^");
+                int pow = -1;
+                if (indexPow > -1)
                 {
-                    if (splitString[i].charAt(j) == 'x')
-                    {
-                        xIndexInString = j;
-                    }
+                    pow = Integer.parseInt(splitString[0].split("\\^")[1]);
                 }
-                if(xIndexInString > 0)
+                else if(splitString[i].contains("x"))
                 {
-                    a = Double.parseDouble(splitString[i].split("x")[0]);
+
+                }
+                if(splitString[i].contains("x"))
+                {
+                    String a = splitString[i].split("x")[0];
+                    if(a.isEmpty())
+                    {
+                        ans[0] = 1;
+                    }
+                    else
+                    {
+                        ans[0] = Double.parseDouble(splitString[i].split("x")[0]);;
+                    }
                 }
             }
         }
