@@ -133,16 +133,28 @@ public class Ex1
             ans = new StringBuilder("0");}
 		else
         {
-            for (int i=0;i<poly.length;i++)
+            for (int i=poly.length-1;i>=0;i--)
             {
-                if(i > 0 && poly[i] > 0)
+                if(poly[i] != 0)
                 {
-                    ans.append("+");
-                }
-                ans.append(poly[poly.length - i - 1]);
-                if (i < poly.length - 1)
-                {
-                    ans.append(" ");
+                    if(i < poly.length-1 && poly[i] > 0)
+                    {
+                        ans.append("+");
+                    }
+                    ans.append(poly[i]);
+                    if(i > 0)
+                    {
+                        ans.append("x");
+                    }
+                    if(i > 1)
+                    {
+                        ans.append("^");
+                        ans.append(i);
+                    }
+                    if (i > 0)
+                    {
+                        ans.append(" ");
+                    }
                 }
             }
 		}
@@ -284,6 +296,7 @@ public class Ex1
             // ============ Build Poly ============
             for(int i=0;i<splitString.length;i++)
             {
+                // ============ Get Pow ============
                 int indexPow = splitString[i].indexOf("^");
                 int pow = -1;
                 if (indexPow > -1)
@@ -292,19 +305,28 @@ public class Ex1
                 }
                 else if(splitString[i].contains("x"))
                 {
-
+                    pow = 1;
                 }
+                else
+                {
+                    pow = 0;
+                }
+                // ============ Get Coefficient ============
                 if(splitString[i].contains("x"))
                 {
                     String a = splitString[i].split("x")[0];
                     if(a.isEmpty())
                     {
-                        ans[0] = 1;
+                        ans[pow] = 1;
                     }
                     else
                     {
-                        ans[0] = Double.parseDouble(splitString[i].split("x")[0]);;
+                        ans[pow] = Double.parseDouble(splitString[i].split("x")[0]);
                     }
+                }
+                else
+                {
+                    ans[pow] = Double.parseDouble(splitString[i]);
                 }
             }
         }
