@@ -1,6 +1,8 @@
 package I2CS_Ex1;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -20,6 +22,7 @@ class Ex1Test {
 	static double[] po3 = {2,1,-0.7, -0.02,0.02};
 	static double[] po4 = {-3, 0.61, 0.2};
     static double[] po5 = {0, 0.61, -3, 2};
+    static double[] po6 = {0, 0.61, -3, 2, 0};
 
 
     @Test
@@ -30,9 +33,11 @@ class Ex1Test {
         double fx0 = Ex1.f(po1, 0);
         double fx1 = Ex1.f(po1, 1);
         double fx2 = Ex1.f(po1, 2);
+        double fx3 = Ex1.f(po6, 0);
         assertEquals(2, fx0, Ex1.EPS);
         assertEquals(4, fx1, Ex1.EPS);
         assertEquals(6, fx2, Ex1.EPS);
+        assertEquals(0, fx3, Ex1.EPS);
     }
 
     @Test
@@ -112,15 +117,47 @@ class Ex1Test {
         double[][] d1 = {{0}, {1}, {1,2,0,0}};
         double[][] d2 = {Ex1.ZERO, {1+ Ex1.EPS/2}, {1,2}};
         double[][] xx = {{-2* Ex1.EPS}, {1+ Ex1.EPS*1.2}, {1,2, Ex1.EPS/2}};
-        assertTrue(Ex1.equals(d1[0], d2[0]));
-        assertTrue(Ex1.equals(d1[1], d2[1]));
-        assertTrue(Ex1.equals(d1[2], d2[2]));
         for(int i=0;i<d1.length;i=i+1) {
             assertTrue(Ex1.equals(d1[i], d2[i]));
         }
         for(int i=0;i<d1.length;i=i+1) {
             assertFalse(Ex1.equals(d1[i], xx[i]));
         }
+    }
+
+    @Test
+    /**
+     * Tests the parsing of a polynom in a String like form.
+     */
+    public void testFromString() {
+        double[] p = {-1.1,2.3,3.1}; // 3.1X^2+ 2.3x -1.1
+        String sp2 = "3.1x^2 +2.3x -1.1";
+        String sp = Ex1.poly(p);
+        double[] p1 = Ex1.getPolynomFromString(sp);
+        double[] p2 = Ex1.getPolynomFromString(sp2);
+        boolean isSame1 = Ex1.equals(p1, p);
+        boolean isSame2 = Ex1.equals(p2, p);
+        if(!isSame1) {fail();}
+        if(!isSame2) {fail();}
+        assertEquals(sp, Ex1.poly(p1));
+    }
+
+    @Test
+    /**
+     * Tests the parsing of a polynom in a String like form.
+     */
+    public void testFromString2() {
+        double[] p = {0, -1.1, 2.3, 0, 3.1, 0}; // 3.1X^2+ 2.3x -1.1
+        String sp2 = "3.1x^4 +2.3x^2 -1.1x";
+        String sp = Ex1.poly(p);
+        double[] p1 = Ex1.getPolynomFromString(sp);
+        double[] p2 = Ex1.getPolynomFromString(sp2);
+        boolean isSame1 = Ex1.equals(p1, p);
+        boolean isSame2 = Ex1.equals(p2, p);
+        System.out.println(Arrays.toString(p) + "  " +  Arrays.toString(p1) + "  " + sp);
+        if(!isSame1) {fail();}
+        if(!isSame2) {fail();}
+        assertEquals(sp, Ex1.poly(p1));
     }
 
     @Test
@@ -197,22 +234,6 @@ class Ex1Test {
 		assertTrue(Ex1.equals(dp1, pt));
 		assertTrue(Ex1.equals(Ex1.ZERO, dp3));
 		assertTrue(Ex1.equals(dp4, dp3));
-	}
-	@Test
-	/** 
-	 * Tests the parsing of a polynom in a String like form.
-	 */
-	public void testFromString() {
-		double[] p = {-1.1,2.3,3.1}; // 3.1X^2+ 2.3x -1.1
-		String sp2 = "3.1x^2 +2.3x -1.1";
-		String sp = Ex1.poly(p);
-		double[] p1 = Ex1.getPolynomFromString(sp);
-		double[] p2 = Ex1.getPolynomFromString(sp2);
-		boolean isSame1 = Ex1.equals(p1, p);
-		boolean isSame2 = Ex1.equals(p2, p);
-		if(!isSame1) {fail();}
-		if(!isSame2) {fail();}
-		assertEquals(sp, Ex1.poly(p1));
 	}
 
 	@Test

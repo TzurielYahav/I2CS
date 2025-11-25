@@ -28,6 +28,7 @@ public class Ex1
 	 */
 	public static double f(double[] poly, double x)
     {
+        if(poly[poly.length - 1] == 0){ poly = cutPolyLeadingZeros(poly);}
 		double ans = 0;
 		for(int i=0;i<poly.length;i++) {
 			double c = Math.pow(x, i);
@@ -47,6 +48,7 @@ public class Ex1
 	 */
 	public static double root_rec(double[] p, double x1, double x2, double eps)
     {
+        if(p[p.length - 1] == 0){ p = cutPolyLeadingZeros(p);}
         double f1 = f(p,x1);
         double x12 = (x1+x2)/2;
         double f12 = f(p,x12);
@@ -173,7 +175,7 @@ public class Ex1
             {
                 if(poly[i] != 0)
                 {
-                    if(i < poly.length-1 && poly[i] > 0)
+                    if(!ans.isEmpty() && poly[i] > 0)
                     {
                         ans.append("+");
                     }
