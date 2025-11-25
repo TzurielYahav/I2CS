@@ -210,8 +210,8 @@ public class Ex1
 	 */
 	public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps)
     {
-		// double ans = x1;
-
+        if(p1[p1.length - 1] == 0){ p1 = cutPolyLeadingZeros(p1);}
+        if(p2[p2.length - 1] == 0){ p2 = cutPolyLeadingZeros(p2);}
         double f1 = f(p1,x1);
         double f2 = f(p2,x1);
         double x12 = (x1+x2)/2;
@@ -219,8 +219,8 @@ public class Ex1
         double f22 = f(p2,x12);
         if (Math.abs(f12 - f22) < eps) {return x12;}
         if((f12 - f22) * (f1 - f2) <= 0) {return sameValue(p1, p2, x1, x12, eps);}
-        else {return sameValue(p1, p2, x12, x2, eps);}
-		// return ans;
+        if (Math.abs(x2-x1)<eps) {return Double.NaN;}
+        return sameValue(p1, p2, x12, x2, eps);
 	}
 	/**
 	 * Given a polynomial function (p), a range [x1,x2] and an integer with the number (n) of sample points.
