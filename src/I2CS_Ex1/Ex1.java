@@ -64,7 +64,7 @@ public class Ex1
 	 * @param yy
 	 * @return an array of doubles representing the coefficients of the polynom.
 	 */
-	public static double[] PolynomFromPoints(double[] xx, double[] yy)
+	public static double[] polynomFromPoints(double[] xx, double[] yy)
     {
 		double [] ans = null;
 		int lx = xx.length;
@@ -96,7 +96,15 @@ public class Ex1
 	 */
 	public static boolean equals(double[] p1, double[] p2)
     {
-		if(p1!=null && p2!=null && p1.length== p2.length)
+        if(p1[p1.length - 1] == 0)
+        {
+            p1 = cutPolyLeadingZeros(p1);
+        }
+        if(p2[p2.length - 1] == 0)
+        {
+            p2 = cutPolyLeadingZeros(p2);
+        }
+		if(p1!=null && p2!=null && p1.length == p2.length)
         {
             // === 1 ===
             /* */
@@ -123,6 +131,30 @@ public class Ex1
         }
 		return false;
 	}
+
+    /**
+     * Given two points (x1,y1) , (x2,y2).
+     * This function computes the distance between the two points.
+     * The area is computed using (https://www.mathsisfun.com/algebra/distance-2-points.html)
+     * @param p - first point's x value
+     * @return the distance between the points.
+     */
+    private static double[] cutPolyLeadingZeros(double[] p)
+    {
+        int zerosToRemove = 0;
+        for (int i = p.length - 1; i > 0; i--)
+        {
+            if (p[i] == 0)
+            {
+                zerosToRemove++;
+            }
+            else
+            {
+                i = -1;
+            }
+        }
+        return Arrays.copyOfRange(p, 0, p.length - zerosToRemove);
+    }
 
 	/** 
 	 * Computes a String representing the polynomial function.

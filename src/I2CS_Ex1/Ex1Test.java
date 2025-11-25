@@ -74,7 +74,53 @@ class Ex1Test {
         //assertEquals(0, fx5, Ex1.EPS);
     }
 
-	@Test
+    @Test
+    /**
+     * Tests that p1+p2+ (-1*p2) == p1
+     */
+    void testPolynomFromPoints() {
+        double[] xx = {-5, 5, 10};
+        double[] yy = {5, 0, 10};
+        double[] p = Ex1.polynomFromPoints(xx, yy);
+        double y1 = Ex1.f(p, xx[0]);
+        double y2 = Ex1.f(p, xx[1]);
+        double y3 = Ex1.f(p, xx[2]);
+        assertEquals(5, y1, Ex1.EPS);
+        assertEquals(0, y2, Ex1.EPS);
+        assertEquals(10, y3, Ex1.EPS);
+    }
+
+    @Test
+    /**
+     * Tests that p1+p2+ (-1*p2) == p1
+     */
+    void testPolynomFromPoints2() {
+        double[] xx = {10, 14.2};
+        double[] yy = {3.78, 5.7};
+        double[] p = Ex1.polynomFromPoints(xx, yy);
+        double y1 = Ex1.f(p, xx[0]);
+        double y2 = Ex1.f(p, xx[1]);
+        assertEquals(3.78, y1, Ex1.EPS);
+        assertEquals(5.7, y2, Ex1.EPS);
+    }
+
+    @Test
+    /**
+     * Tests the equality of pairs of arrays.
+     */
+    public void testEquals() {
+        double[][] d1 = {{0}, {1}, {1,2,0,0}};
+        double[][] d2 = {Ex1.ZERO, {1+ Ex1.EPS/2}, {1,2}};
+        double[][] xx = {{-2* Ex1.EPS}, {1+ Ex1.EPS*1.2}, {1,2, Ex1.EPS/2}};
+        for(int i=0;i<d1.length;i=i+1) {
+            assertTrue(Ex1.equals(d1[i], d2[i]));
+        }
+        for(int i=0;i<d1.length;i=i+1) {
+            assertFalse(Ex1.equals(d1[i], xx[i]));
+        }
+    }
+
+    @Test
 	/**
 	 * Tests that p1+p2+ (-1*p2) == p1
 	 */
@@ -164,21 +210,6 @@ class Ex1Test {
 		if(!isSame1) {fail();}
 		if(!isSame2) {fail();}
 		assertEquals(sp, Ex1.poly(p1));
-	}
-	@Test
-	/**
-	 * Tests the equality of pairs of arrays.
-	 */
-	public void testEquals() {
-		double[][] d1 = {{0}, {1}, {1,2,0,0}};
-		double[][] d2 = {Ex1.ZERO, {1+ Ex1.EPS/2}, {1,2}};
-		double[][] xx = {{-2* Ex1.EPS}, {1+ Ex1.EPS*1.2}, {1,2, Ex1.EPS/2}};
-		for(int i=0;i<d1.length;i=i+1) {
-			assertTrue(Ex1.equals(d1[i], d2[i]));
-		}
-		for(int i=0;i<d1.length;i=i+1) {
-			assertFalse(Ex1.equals(d1[i], xx[i]));
-		}
 	}
 
 	@Test
