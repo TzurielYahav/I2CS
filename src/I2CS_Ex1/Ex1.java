@@ -110,7 +110,7 @@ public class Ex1
             /* */
             for (int i=0;i<p1.length;i++)
             {
-                if(f(p1, i) != f(p2, i))
+                if(Math.abs(f(p1, i) - f(p2, i)) > EPS)
                 {
                     return false;
                 }
@@ -120,7 +120,7 @@ public class Ex1
             /* */
             for (int i=0;i<p1.length;i++)
             {
-                if(p1[i] != p2[i])
+                if(Math.abs(p1[i] - p2[i]) > EPS)
                 {
                     return false;
                 }
