@@ -55,17 +55,23 @@ class Ex1Test {
     void testRootRec() {
         double fx0 = Ex1.root_rec(po1, -3, 0, Ex1.EPS);
         double fx1 = Ex1.root_rec(po1, 0, 2, Ex1.EPS);
+        assertEquals(-1, fx0, Ex1.EPS);
+        assertEquals(Double.NaN, fx1, Ex1.EPS);
+    }
+
+    @Test
+    /**
+     * Tests that f(x) == poly(x).
+     */
+    void testRootRec2() {
         double fx2 = Ex1.root_rec(po5, -1, 1, Ex1.EPS);
         double fx3 = Ex1.root_rec(po5, -1, 0, Ex1.EPS);
         double fx4 = Ex1.root_rec(po5, 0, 1, Ex1.EPS);
-        double fx5 = Ex1.root_rec(po5, -1, 2, Ex1.EPS);
-        assertEquals(-1, fx0, Ex1.EPS);
-        assertEquals(Double.NaN, fx1, Ex1.EPS);
+        //double fx5 = Ex1.root_rec(po5, -1, 2, Ex1.EPS);
         assertEquals(0, fx2, Ex1.EPS);
         assertEquals(0, fx3, Ex1.EPS);
         assertEquals(0, fx4, Ex1.EPS);
         //assertEquals(0, fx5, Ex1.EPS);
-
     }
 
 	@Test

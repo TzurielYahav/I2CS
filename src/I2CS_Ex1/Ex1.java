@@ -358,13 +358,13 @@ public class Ex1
         }
         if (p1.length >= p2.length)
         {
-            ans = p1;
-            shortPoly = p2;
+            ans = Arrays.copyOfRange(p1, 0, p1.length);
+            shortPoly = Arrays.copyOfRange(p2, 0, p2.length);
         }
         else
         {
-            ans = p2;
-            shortPoly = p1;
+            ans = Arrays.copyOfRange(p2, 0, p2.length);
+            shortPoly = Arrays.copyOfRange(p1, 0, p1.length);
         }
         for (int i = 0; i < shortPoly.length; i++)
         {
