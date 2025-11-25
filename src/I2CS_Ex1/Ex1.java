@@ -1,5 +1,7 @@
 package I2CS_Ex1;
 
+import java.util.Arrays;
+
 /**
  * Introduction to Computer Science 2026, Ariel University,
  * Ex1: arrays, static functions and JUnit
@@ -338,10 +340,62 @@ public class Ex1
 	 * @return
 	 */
 	public static double[] add(double[] p1, double[] p2) {
-		double [] ans = ZERO;//
-        /** add you code below
-
-         /////////////////// */
+		double [] ans = ZERO;
+        double[] shortPoly;
+        if (p1.length == 0 || p2.length == 0)
+        {
+            if (p1.length == 0)
+            {
+                if (p2.length == 0)
+                {
+                    return ans;
+                }
+                return p2;
+            }
+            return p1;
+        }
+        if (p1.length >= p2.length)
+        {
+            ans = p1;
+            shortPoly = p2;
+        }
+        else
+        {
+            ans = p2;
+            shortPoly = p1;
+        }
+        for (int i = 0; i < shortPoly.length; i++)
+        {
+            ans[i] += shortPoly[i];
+        }
+        if (ans[ans.length - 1] == 0)
+        {
+            int cutLengthCount = 0;
+            for (int i=ans.length-1;i>=0;i--)
+            {
+                if (ans[i] == 0)
+                {
+                    cutLengthCount++;
+                }
+                else
+                {
+                    i = -1;
+                }
+            }
+            if (cutLengthCount != 0)
+            {
+                if (cutLengthCount == ans.length)
+                {
+                    ans = ZERO;
+                }
+                else
+                {
+                    double[] cutAns = new double[ans.length - cutLengthCount];
+                    cutAns = Arrays.copyOfRange(ans, 0, cutAns.length);
+                    return  cutAns;
+                }
+            }
+        }
 		return ans;
 	}
 	/**
@@ -351,10 +405,20 @@ public class Ex1
 	 * @return
 	 */
 	public static double[] mul(double[] p1, double[] p2) {
-		double [] ans = ZERO;//
-        /** add you code below
-
-         /////////////////// */
+		double [] ans = ZERO;
+        if (p1.length == 0 || p2.length == 0)
+            return ans;
+        ans = new double[p1.length + p2.length - 1];
+        for (int i = 0; i < p1.length; i++)
+        {
+            if(p1[i] != 0)
+            {
+                for (int j = 0; j < p2.length; j++)
+                {
+                    ans[i+j] +=  p1[i] * p2[j];
+                }
+            }
+        }
 		return ans;
 	}
 	/**
@@ -363,10 +427,16 @@ public class Ex1
 	 * @return
 	 */
 	public static double[] derivative (double[] po) {
-		double [] ans = ZERO;//
-        /** add you code below
-
-         /////////////////// */
+		double [] ans = ZERO;
+        if (po.length < 2)
+        {
+            return ans;
+        }
+        ans  = new double[po.length - 1];
+        for (int i = 1; i < po.length; i++)
+        {
+            ans[i-1] = po[i] * i;
+        }
 		return ans;
 	}
 }
