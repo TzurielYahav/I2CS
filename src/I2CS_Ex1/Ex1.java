@@ -282,7 +282,7 @@ public class Ex1
 	public static double area(double[] p1,double[]p2, double x1, double x2, int numberOfTrapezoid)
     {
         double ans = 0;
-        double xSampleLength = x2 - x1 / numberOfTrapezoid;
+        double xSampleLength = (x2 - x1) / numberOfTrapezoid;
         double a1 = x1 + xSampleLength / 2;
         double b1 = 0;
         double b2 = 0;
