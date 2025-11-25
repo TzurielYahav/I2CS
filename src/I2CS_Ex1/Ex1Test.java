@@ -154,10 +154,20 @@ class Ex1Test {
         double[] p2 = Ex1.getPolynomFromString(sp2);
         boolean isSame1 = Ex1.equals(p1, p);
         boolean isSame2 = Ex1.equals(p2, p);
-        System.out.println(Arrays.toString(p) + "  " +  Arrays.toString(p1) + "  " + sp);
         if(!isSame1) {fail();}
         if(!isSame2) {fail();}
         assertEquals(sp, Ex1.poly(p1));
+    }
+
+    @Test
+    /**
+     * Tests is the sameValue function is symmetric.
+     */
+    public void testSameValue2() {
+        double x1=-4, x2=0;
+        double rs1 = Ex1.sameValue(po1,po2, x1, x2, Ex1.EPS);
+        double rs2 = Ex1.sameValue(po2,po1, x1, x2, Ex1.EPS);
+        assertEquals(rs1,rs2, Ex1.EPS);
     }
 
     @Test
@@ -236,16 +246,6 @@ class Ex1Test {
 		assertTrue(Ex1.equals(dp4, dp3));
 	}
 
-	@Test
-	/**
-	 * Tests is the sameValue function is symmetric.
-	 */
-	public void testSameValue2() {
-		double x1=-4, x2=0;
-		double rs1 = Ex1.sameValue(po1,po2, x1, x2, Ex1.EPS);
-		double rs2 = Ex1.sameValue(po2,po1, x1, x2, Ex1.EPS);
-		assertEquals(rs1,rs2, Ex1.EPS);
-	}
 	@Test
 	/**
 	 * Test the area function - it should be symmetric.

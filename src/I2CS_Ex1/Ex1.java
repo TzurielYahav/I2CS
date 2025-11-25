@@ -338,7 +338,7 @@ public class Ex1
                 int pow = -1;
                 if (splitString[i].contains("^"))
                 {
-                    pow = Integer.parseInt(splitString[0].split("\\^")[1]);
+                    pow = Integer.parseInt(splitString[i].split("\\^")[1]);
                 }
                 else if(splitString[i].contains("x"))
                 {
