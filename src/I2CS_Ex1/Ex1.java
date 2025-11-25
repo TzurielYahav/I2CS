@@ -69,16 +69,16 @@ public class Ex1
 		int ly = yy.length;
 		if(xx!=null && yy!=null && lx==ly && lx>1 && lx<4)
         {
-            ans = new double[3];
             if(lx == 2)
             {
-                // ========================
-
-                // ========================
+                ans = new double[2];
+                ans[1] = (yy[1] - yy[0]) / (xx[1] - xx[0]);
+                ans[0] = yy[0] - xx[0] * ans[1];
             }
             else
             {
-                 double denom = (xx[0] - xx[1]) * (xx[0] - xx[2]) * (xx[1] - xx[2]);
+                ans = new double[3];
+                double denom = (xx[0] - xx[1]) * (xx[0] - xx[2]) * (xx[1] - xx[2]);
                 ans[2] = (xx[2] * (yy[1] - yy[0]) + xx[1] * (yy[0] - yy[2]) + xx[0] * (yy[2] - yy[1])) / denom;
                 ans[1] = (Math.pow(xx[2],2) * (yy[0] - yy[1]) + Math.pow(xx[1],2) * (yy[2] - yy[0]) + Math.pow(xx[0],2) * (yy[1] - yy[2])) / denom;
                 ans[0] = (xx[1] * xx[2] * (xx[1] - xx[2]) * yy[0] + xx[2] * xx[0] * (xx[2] - xx[0]) * yy[1] + xx[0] * xx[1] * (xx[0] - xx[1]) * yy[2]) / denom;
