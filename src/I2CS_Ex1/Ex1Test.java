@@ -226,7 +226,7 @@ class Ex1Test {
         double a3 = Ex1.area(po_a,po_b, x1, x2, 3);
         double a100 = Ex1.area(po_a,po_b, x1, x2, 100);
         double area = 2.5;
-        assertEquals(area, a100, Ex1.EPS);
+        assertEquals(area, a1, Ex1.EPS);
         assertEquals(area, a2, Ex1.EPS);
         assertEquals(area, a3, Ex1.EPS);
         assertEquals(area, a100, Ex1.EPS);
