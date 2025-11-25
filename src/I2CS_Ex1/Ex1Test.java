@@ -163,11 +163,42 @@ class Ex1Test {
     /**
      * Tests is the sameValue function is symmetric.
      */
-    public void testSameValue2() {
+    public void testSameValue() {
         double x1=-4, x2=0;
         double rs1 = Ex1.sameValue(po1,po2, x1, x2, Ex1.EPS);
         double rs2 = Ex1.sameValue(po2,po1, x1, x2, Ex1.EPS);
         assertEquals(rs1,rs2, Ex1.EPS);
+    }
+
+    @Test
+    /**
+     * Tests is the sameValue function is symmetric.
+     */
+    public void testSameValue2() {
+        double[] p1 = {0, 1, 0};
+        double[] p2 = {0, -1, 0, 1};
+        double x1=0, x2=2, x3=1, x4=3;
+        double rs1 = Ex1.sameValue(p1,p2, x1, x2, Ex1.EPS);
+        double rs2 = Ex1.sameValue(p2,p1, x3, x4, Ex1.EPS);
+        assertEquals(0,rs1, Ex1.EPS);
+        assertEquals(1.41406,rs2, Ex1.EPS);
+    }
+
+    @Test
+    /**
+     * Tests that p1+p2+ (-1*p2) == p1
+     */
+    void testLength() {
+        double[] p1 = {0, 1.33333333, 0};
+        double[] p2 = {1};
+        double[] p3 = {0, -1, 0, 1};
+        double x1=0, x2=2, x3=3, x4=-1, x5=1;
+        double rs1 = Ex1.length(p1, x1, x3, 2);
+        double rs2 = Ex1.length(p2, x1, x2, 2);
+        double rs3 = Ex1.length(p3, x4, x5, 1000);
+        assertEquals(5,rs1, Ex1.EPS);
+        assertEquals(2,rs2, Ex1.EPS);
+        assertEquals(2.6227,rs3, Ex1.EPS);
     }
 
     @Test

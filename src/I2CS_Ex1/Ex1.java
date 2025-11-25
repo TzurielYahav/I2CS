@@ -237,18 +237,18 @@ public class Ex1
 	public static double length(double[] p, double x1, double x2, int numberOfSegments)
     {
 		double ans = 0;
-        double xSampleLength = x2 - x1 / numberOfSegments;
+        double xSampleLength = (x2 - x1) / numberOfSegments;
         double a1 = x1;
         double a2 = 0;
-        double b1 = 0;
+        double b1 = f(p,a1);
         double b2 = 0;
         for(int i=0;i<numberOfSegments;i++)
         {
             a2 = a1 + xSampleLength;
-            b1 = f(p,a1);
             b2 = f(p,a2);
             ans += distanceOf2Points(a1,a2,b1,b2);
             a1 = a2;
+            b1 = b2;
         }
 		return ans;
 	}
