@@ -47,13 +47,15 @@ public class Ex1
 	 */
 	public static double root_rec(double[] p, double x1, double x2, double eps)
     {
-		double f1 = f(p,x1);
-		double x12 = (x1+x2)/2;
-		double f12 = f(p,x12);
-		if (Math.abs(f12)<eps) {return x12;}
-		if(f12*f1<=0) {return root_rec(p, x1, x12, eps);}
-		else {return root_rec(p, x12, x2, eps);}
+        double f1 = f(p,x1);
+        double x12 = (x1+x2)/2;
+        double f12 = f(p,x12);
+        if (Math.abs(f12)<eps) {return x12;}
+        if (f12*f1<=0) {return root_rec(p, x1, x12, eps);}
+        if (Math.abs(x2-x1)<eps) {return Double.NaN;}
+        return root_rec(p, x12, x2, eps);
 	}
+
 	/**
 	 * This function computes a polynomial representation from a set of 2D points on the polynom.
 	 * The solution is based on: //	http://stackoverflow.com/questions/717762/how-to-calculate-the-vertex-of-a-parabola-given-three-points

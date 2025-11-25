@@ -16,34 +16,58 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Ex1Test {
 	static final double[] P1 ={2,0,3, -1,0}, P2 = {0.1,0,1, 0.1,3};
-	static double[] po1 = {2,2}, po2 = {-3, 0.61, 0.2};;
+	static double[] po1 = {2,2}, po2 = {-3, 0.61, 0.2};
 	static double[] po3 = {2,1,-0.7, -0.02,0.02};
 	static double[] po4 = {-3, 0.61, 0.2};
-	
- 	@Test
-	/**
-	 * Tests that f(x) == poly(x).
-	 */
-	void testF() {
-		double fx0 = Ex1.f(po1, 0);
-		double fx1 = Ex1.f(po1, 1);
-		double fx2 = Ex1.f(po1, 2);
-		assertEquals(fx0, 2, Ex1.EPS);
-		assertEquals(fx1, 4, Ex1.EPS);
-		assertEquals(fx2, 6, Ex1.EPS);
-	}
-	@Test
-	/**
-	 * Tests that p1(x) + p2(x) == (p1+p2)(x)
-	 */
-	void testF2() {
-		double x = Math.PI;
-		double[] po12 = Ex1.add(po1, po2);
-		double f1x = Ex1.f(po1, x);
-		double f2x = Ex1.f(po2, x);
-		double f12x = Ex1.f(po12, x);
-		assertEquals(f1x + f2x, f12x, Ex1.EPS);
-	}
+    static double[] po5 = {0, 0.61, -3, 2};
+
+
+    @Test
+    /**
+     * Tests that f(x) == poly(x).
+     */
+    void testF() {
+        double fx0 = Ex1.f(po1, 0);
+        double fx1 = Ex1.f(po1, 1);
+        double fx2 = Ex1.f(po1, 2);
+        assertEquals(2, fx0, Ex1.EPS);
+        assertEquals(4, fx1, Ex1.EPS);
+        assertEquals(6, fx2, Ex1.EPS);
+    }
+
+    @Test
+    /**
+     * Tests that p1(x) + p2(x) == (p1+p2)(x)
+     */
+    void testF2() {
+        double x = Math.PI;
+        double[] po12 = Ex1.add(po1, po2);
+        double f1x = Ex1.f(po1, x);
+        double f2x = Ex1.f(po2, x);
+        double f12x = Ex1.f(po12, x);
+        assertEquals(f1x + f2x, f12x, Ex1.EPS);
+    }
+
+    @Test
+    /**
+     * Tests that f(x) == poly(x).
+     */
+    void testRootRec() {
+        double fx0 = Ex1.root_rec(po1, -3, 0, Ex1.EPS);
+        double fx1 = Ex1.root_rec(po1, 0, 2, Ex1.EPS);
+        double fx2 = Ex1.root_rec(po5, -1, 1, Ex1.EPS);
+        double fx3 = Ex1.root_rec(po5, -1, 0, Ex1.EPS);
+        double fx4 = Ex1.root_rec(po5, 0, 1, Ex1.EPS);
+        double fx5 = Ex1.root_rec(po5, -1, 2, Ex1.EPS);
+        assertEquals(-1, fx0, Ex1.EPS);
+        assertEquals(Double.NaN, fx1, Ex1.EPS);
+        assertEquals(0, fx2, Ex1.EPS);
+        assertEquals(0, fx3, Ex1.EPS);
+        assertEquals(0, fx4, Ex1.EPS);
+        //assertEquals(0, fx5, Ex1.EPS);
+
+    }
+
 	@Test
 	/**
 	 * Tests that p1+p2+ (-1*p2) == p1
