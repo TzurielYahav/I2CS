@@ -241,7 +241,7 @@ class Ex1Test {
         double x1 = Ex1.sameValue(po_a,po_b, -10,-5, Ex1.EPS);
         double a1 = Ex1.area(po_a,po_b, x1, 6, 8);
         double area = 58.5658;
-        assertEquals(a1,area, Ex1.EPS);
+        assertEquals(area, a1, Ex1.EPS);
     }
 
     @Test

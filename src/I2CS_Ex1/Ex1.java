@@ -54,7 +54,7 @@ public class Ex1
         double f12 = f(p,x12);
         if (Math.abs(f12)<eps) {return x12;}
         if (f12*f1<=0) {return root_rec(p, x1, x12, eps);}
-        if (Math.abs(x2-x1)<eps) {return Double.NaN;}
+        if (Math.abs(x2-x1)<EPS * EPS) {return Double.NaN;}
         return root_rec(p, x12, x2, eps);
 	}
 
@@ -219,7 +219,7 @@ public class Ex1
         double f22 = f(p2,x12);
         if (Math.abs(f12 - f22) < eps) {return x12;}
         if((f12 - f22) * (f1 - f2) <= 0) {return sameValue(p1, p2, x1, x12, eps);}
-        if (Math.abs(x2-x1)<eps) {return Double.NaN;}
+        if (Math.abs(x2-x1)<EPS * EPS) {return Double.NaN;}
         return sameValue(p1, p2, x12, x2, eps);
 	}
 	/**
@@ -282,25 +282,51 @@ public class Ex1
 	public static double area(double[] p1,double[]p2, double x1, double x2, int numberOfTrapezoid)
     {
         double ans = 0;
+        double trianglesArea = 0;
         double xSampleLength = (x2 - x1) / numberOfTrapezoid;
-        double a1 = x1 + xSampleLength / 2;
-        double b1 = 0;
-        double b2 = 0;
+        double a1 = x1;
+        double a2 = 0;
+        double b11 = f(p1,a1);
+        double b12 = f(p2,a1);
+        double b21 = 0;
+        double b22 = 0;
         for(int i=0;i<numberOfTrapezoid;i++)
         {
-            b1 = f(p1,a1);
-            b2 = f(p2,a1);
-            if(b1 > b2)
+            a2 = a1 + xSampleLength;
+            b21 = f(p1,a2);
+            b22 = f(p2,a2);
+            if(b11 >= b12)
             {
-                ans += b1 - b2;
+                if(b21 >= b22)
+                {
+                    ans += b11 - b12;
+                    ans += b21 - b22;
+                }
+                else
+                {
+                    double intersectionX = sameValue(p1, p2, a1, a2, EPS);
+                    trianglesArea += ((b11 - b12) * (intersectionX - a1) + (b22 - b21) * (a2 - intersectionX)) / 2;
+                }
             }
             else
             {
-                ans += b2 - b1;
+                if(b22 >= b21)
+                {
+                    ans += b12 - b11;
+                    ans += b22 - b21;
+                }
+                else
+                {
+                    double intersectionX = sameValue(p1, p2, a1, a2, EPS);
+                    trianglesArea += ((b12 - b11) * (intersectionX - a1) + (b21 - b22) * (a2 - intersectionX)) / 2;
+                }
             }
             a1 += xSampleLength;
+            b11 = b21;
+            b12 = b22;
         }
-        ans *= xSampleLength;
+        ans *= xSampleLength / 2;
+        ans += trianglesArea;
 		return ans;
 	}
 	/**
