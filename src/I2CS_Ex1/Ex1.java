@@ -318,7 +318,8 @@ public class Ex1
         ans += trianglesArea;
 		return ans;
 	}
-	/**
+
+    /**
 	 * This function computes the array representation of a polynomial function from a String
 	 * representation. Note:given a polynomial function represented as a double array,
 	 * getPolynomFromString(poly(p)) should return an array equals to p.
@@ -417,7 +418,8 @@ public class Ex1
         ans = cutPolyLeadingZeros(ans);
 		return ans;
 	}
-	/**
+
+    /**
 	 * This function computes the polynomial function which is the multiplication of two polynoms (p1,p2)
 	 * @param p1
 	 * @param p2
@@ -426,7 +428,7 @@ public class Ex1
 	public static double[] mul(double[] p1, double[] p2) {
 		double [] ans = ZERO;
         if (p1.length == 0 || p2.length == 0)
-            return ans;
+            return null;
         ans = new double[p1.length + p2.length - 1];
         for (int i = 0; i < p1.length; i++)
         {
@@ -440,7 +442,8 @@ public class Ex1
         }
 		return ans;
 	}
-	/**
+
+    /**
 	 * This function computes the derivative of the p0 polynomial function.
 	 * @param po
 	 * @return
