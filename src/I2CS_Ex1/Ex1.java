@@ -101,6 +101,9 @@ public class Ex1
 	}
 	/** Two polynomials functions are equal if and only if they have the same values f(x) for n+1 values of x,
 	 * where n is the max degree (over p1, p2) - up to an epsilon (aka EPS) value.
+     * The function first checks if the polynoms are from the same degree,
+     * and then checks if the difference between the values of the polynoms
+     * for 'n' number of points is bigger than EPS, where n is the degree of the polynoms + 1
 	 * @param p1 first polynomial function
 	 * @param p2 second polynomial function
 	 * @return true iff p1 represents the same polynomial function as p2.
@@ -115,29 +118,15 @@ public class Ex1
         {
             p2 = cutPolyLeadingZeros(p2);
         }
-		if(p1!=null && p2!=null && p1.length == p2.length)
+		if(p1!=null && p2!=null && p1.length == p2.length)  // check if the input is valid and the polynoms are from the same degree
         {
-            // === 1 ===
-            /* */
-            for (int i=0;i<p1.length;i++)
+            for (int i=0;i<p1.length;i++)                   // a loop that checks n points between the polynoms when n is (the degree of the polynoms + 1)
             {
-                if(Math.abs(f(p1, i) - f(p2, i)) > EPS)
+                if(Math.abs(f(p1, i * 1000) - f(p2, i * 1000)) > EPS) // the x value to check is i * 1000, if |p1(x) - p2(x)| > EPS, then the difference between the points is too big
                 {
                     return false;
                 }
             }
-            // */
-            // === 2 ===
-            /* */
-            for (int i=0;i<p1.length;i++)
-            {
-                if(Math.abs(p1[i] - p2[i]) > EPS)
-                {
-                    return false;
-                }
-            }
-            // */
-            // =========
             return true;
         }
 		return false;

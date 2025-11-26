@@ -118,12 +118,15 @@ class Ex1Test {
         double[][] d1 = {{0}, {1}, {1,2,0,0}};
         double[][] d2 = {Ex1.ZERO, {1+ Ex1.EPS/2}, {1,2}};
         double[][] xx = {{-2* Ex1.EPS}, {1+ Ex1.EPS*1.2}, {1,2, Ex1.EPS/2}};
+        double[] p1 = {1,0,1,1,1};
+        double[] p2 = {1.0001,0.0001,1.0001,1.001,1.0001};
         for(int i=0;i<d1.length;i=i+1) {
             assertTrue(Ex1.equals(d1[i], d2[i]));
         }
         for(int i=0;i<d1.length;i=i+1) {
             assertFalse(Ex1.equals(d1[i], xx[i]));
         }
+        assertTrue(Ex1.equals(p1, p1));
     }
 
     @Test
