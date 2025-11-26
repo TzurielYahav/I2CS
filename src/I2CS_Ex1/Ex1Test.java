@@ -55,7 +55,8 @@ class Ex1Test {
 
     @Test
     /**
-     * Tests that f(x) == poly(x).
+     * Tests that root_rec(x1,x2) gives the x in the range (x1,x2) where f(x) == 0.
+     * Tests that when there is no such x in the range then it returns NaN.
      */
     void testRootRec() {
         double fx0 = Ex1.root_rec(po1, -3, 0, Ex1.EPS);
@@ -66,22 +67,21 @@ class Ex1Test {
 
     @Test
     /**
-     * Tests that f(x) == poly(x).
+     * Tests that edge cases of root_rec(x1,x2) when root_rec(x1,x2) == x1 || root_rec(x1,x2) == x2.
      */
     void testRootRec2() {
         double fx2 = Ex1.root_rec(po5, -1, 1, Ex1.EPS);
         double fx3 = Ex1.root_rec(po5, -1, 0, Ex1.EPS);
         double fx4 = Ex1.root_rec(po5, 0, 1, Ex1.EPS);
-        //double fx5 = Ex1.root_rec(po5, -1, 2, Ex1.EPS);
         assertEquals(0, fx2, Ex1.EPS);
         assertEquals(0, fx3, Ex1.EPS);
         assertEquals(0, fx4, Ex1.EPS);
-        //assertEquals(0, fx5, Ex1.EPS);
     }
 
     @Test
     /**
-     * Tests that p1+p2+ (-1*p2) == p1
+     * Tests that a polynom made from three points (x1,y1|x2,y2|x3,y3),
+     * returns f(x1) == y1 && f(x2) == y2 && f(x3) == y3.
      */
     void testPolynomFromPoints() {
         double[] xx = {-5, 5, 10};
@@ -97,7 +97,8 @@ class Ex1Test {
 
     @Test
     /**
-     * Tests that p1+p2+ (-1*p2) == p1
+     * Tests that a polynom made from two points (x1,y1|x2,y2),
+     * returns f(x1) == y1 && f(x2) == y2.
      */
     void testPolynomFromPoints2() {
         double[] xx = {10, 14.2};
@@ -128,6 +129,7 @@ class Ex1Test {
     @Test
     /**
      * Tests the parsing of a polynom in a String like form.
+     * And that the conversion array -> string -> array returns equal arrays
      */
     public void testFromString() {
         double[] p = {-1.1,2.3,3.1}; // 3.1X^2+ 2.3x -1.1
@@ -144,7 +146,7 @@ class Ex1Test {
 
     @Test
     /**
-     * Tests the parsing of a polynom in a String like form.
+     * Tests the parsing of a polynom in a String like form when there are zeros in the array.
      */
     public void testFromString2() {
         double[] p = {0, -1.1, 2.3, 0, 3.1, 0}; // 3.1X^2+ 2.3x -1.1
@@ -161,7 +163,7 @@ class Ex1Test {
 
     @Test
     /**
-     * Tests is the sameValue function is symmetric.
+     * Tests if the sameValue function is symmetric.
      */
     public void testSameValue() {
         double x1=-4, x2=0;
@@ -172,7 +174,7 @@ class Ex1Test {
 
     @Test
     /**
-     * Tests is the sameValue function is symmetric.
+     * Tests if the sameValue function returns correct x if there are zeros in the array.
      */
     public void testSameValue2() {
         double[] p1 = {0, 1, 0};
@@ -186,7 +188,8 @@ class Ex1Test {
 
     @Test
     /**
-     * Tests that p1+p2+ (-1*p2) == p1
+     * Tests that the Length function returns the correct length of a function in a range
+     * with minimal error.
      */
     void testLength() {
         double[] p1 = {0, 1.33333333, 0};
@@ -246,7 +249,7 @@ class Ex1Test {
 
     @Test
 	/**
-	 * Tests that p1+p2+ (-1*p2) == p1
+	 * Tests that p1+p2+(-1*p2) == p1
 	 */
 	void testAdd() {
 		double[] p12 = Ex1.add(po1, po2);
