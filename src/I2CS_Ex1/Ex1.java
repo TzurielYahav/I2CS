@@ -22,24 +22,30 @@ public class Ex1
 	public static final double[] ZERO = {0};
 	/**
 	 * Computes the f(x) value of the polynomial function at x.
-	 * @param poly - polynomial function
-	 * @param x
+     * If the polynom has leading zeros remove them, (they're useless) Except for the ZERO polynom.
+     * For each element in the polynom add (x^i)*poly[i] to the answer.
+	 * @param poly the polynomial function
+	 * @param x the x value for the polynomial function
 	 * @return f(x) - the polynomial function value at x.
 	 */
 	public static double f(double[] poly, double x)
     {
-        if(poly[poly.length - 1] == 0){ poly = cutPolyLeadingZeros(poly);}
-		double ans = 0;
-		for(int i=0;i<poly.length;i++) {
-			double c = Math.pow(x, i);
-			ans += c*poly[i];
-		}
+        if(poly[poly.length - 1] == 0 && poly.length > 1){ poly = cutPolyLeadingZeros(poly);} // If the polynom has leading zeros remove them, Except for the ZERO polynom
+        double ans = 0;
+        for(int i=0;i<poly.length;i++) {
+            double c = Math.pow(x, i);      // Computes the x element in the i position of the polynom as c=x^i
+            ans += c*poly[i];               // Multiplies the coefficient of the element with x (c)
+        }
 		return ans;
 	}
 	/** Given a polynomial function (p), a range [x1,x2] and an epsilon eps.
 	 * This function computes an x value (x1<=x<=x2) for which |p(x)| < eps, 
 	 * assuming p(x1)*p(x2) <= 0.
 	 * This function should be implemented recursively.
+     * The function computes the middle of the range [x1,x2],
+     * Checks if the middle is the answer,
+     * If not it checks if the answer is lower or higher than the middle
+     * and continues to check the half range recursively.
 	 * @param p - the polynomial function
 	 * @param x1 - minimal value of the range
 	 * @param x2 - maximal value of the range
@@ -48,22 +54,25 @@ public class Ex1
 	 */
 	public static double root_rec(double[] p, double x1, double x2, double eps)
     {
-        if(p[p.length - 1] == 0){ p = cutPolyLeadingZeros(p);}
-        double f1 = f(p,x1);
-        double x12 = (x1+x2)/2;
-        double f12 = f(p,x12);
-        if (Math.abs(f12)<eps) {return x12;}
-        if (f12*f1<=0) {return root_rec(p, x1, x12, eps);}
-        if (Math.abs(x2-x1)<EPS * EPS) {return Double.NaN;}
-        return root_rec(p, x12, x2, eps);
+        double f1 = f(p,x1);                                // compute the value of p(x1)
+        double x12 = (x1+x2)/2;                             // compute the half range of [x1,x2]
+        double f12 = f(p,x12);                              // compute the value of p(x2)
+        if (Math.abs(f12)<eps) {return x12;}                // if |p(x)| < eps return x
+        if (f12*f1<=0) {return root_rec(p, x1, x12, eps);}  // if the answer is in [x1,x12] range
+        if (x2-x1<EPS * EPS) {return Double.NaN;}           // if x1 is almost equal to x2 - there is no valid x in the range
+        return root_rec(p, x12, x2, eps);                   // else the answer is in [x12,x2] range
 	}
 
 	/**
 	 * This function computes a polynomial representation from a set of 2D points on the polynom.
 	 * The solution is based on: //	http://stackoverflow.com/questions/717762/how-to-calculate-the-vertex-of-a-parabola-given-three-points
 	 * Note: this function only works for a set of points containing up to 3 points, else returns null.
-	 * @param xx
-	 * @param yy
+     * The Function builds two types of polynoms from two different inputs:
+     * A first degree polynom Ax+B from two points,
+     * or a second degree polynom Ax^2+Bx+C from three points
+     * the Function computes the coefficients A,B,C from the points and puts it in an array
+	 * @param xx the x values of the points in order
+	 * @param yy the y values of the points in order
 	 * @return an array of doubles representing the coefficients of the polynom.
 	 */
 	public static double[] polynomFromPoints(double[] xx, double[] yy)
@@ -71,21 +80,21 @@ public class Ex1
 		double [] ans = null;
 		int lx = xx.length;
 		int ly = yy.length;
-		if(xx!=null && yy!=null && lx==ly && lx>1 && lx<4)
+		if(xx!=null && yy!=null && lx==ly && lx>1 && lx<4)  // checks if the input is valid
         {
-            if(lx == 2)
+            if(lx == 2)                                     // if there are only two points
             {
-                ans = new double[2];
-                ans[1] = (yy[1] - yy[0]) / (xx[1] - xx[0]);
-                ans[0] = yy[0] - xx[0] * ans[1];
+                ans = new double[2];                        // make a new polynom from first degree Ax+B
+                ans[1] = (yy[1] - yy[0]) / (xx[1] - xx[0]); // compute the A element
+                ans[0] = yy[0] - xx[0] * ans[1];            // compute the B element
             }
-            else
+            else                                            // if there are three points
             {
-                ans = new double[3];
-                double denom = (xx[0] - xx[1]) * (xx[0] - xx[2]) * (xx[1] - xx[2]);
-                ans[2] = (xx[2] * (yy[1] - yy[0]) + xx[1] * (yy[0] - yy[2]) + xx[0] * (yy[2] - yy[1])) / denom;
-                ans[1] = (Math.pow(xx[2],2) * (yy[0] - yy[1]) + Math.pow(xx[1],2) * (yy[2] - yy[0]) + Math.pow(xx[0],2) * (yy[1] - yy[2])) / denom;
-                ans[0] = (xx[1] * xx[2] * (xx[1] - xx[2]) * yy[0] + xx[2] * xx[0] * (xx[2] - xx[0]) * yy[1] + xx[0] * xx[1] * (xx[0] - xx[1]) * yy[2]) / denom;
+                ans = new double[3];                        // make a new polynom from second degree Ax^2+Bx+C
+                double denom = (xx[0] - xx[1]) * (xx[0] - xx[2]) * (xx[1] - xx[2]); // the calculation is in the web page in the description
+                ans[2] = (xx[2] * (yy[1] - yy[0]) + xx[1] * (yy[0] - yy[2]) + xx[0] * (yy[2] - yy[1])) / denom; // A element
+                ans[1] = (Math.pow(xx[2],2) * (yy[0] - yy[1]) + Math.pow(xx[1],2) * (yy[2] - yy[0]) + Math.pow(xx[0],2) * (yy[1] - yy[2])) / denom; // B element
+                ans[0] = (xx[1] * xx[2] * (xx[1] - xx[2]) * yy[0] + xx[2] * xx[0] * (xx[2] - xx[0]) * yy[1] + xx[0] * xx[1] * (xx[0] - xx[1]) * yy[2]) / denom; // C element
             }
 		}
 		return ans;
