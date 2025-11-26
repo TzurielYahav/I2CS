@@ -22,7 +22,7 @@ public class Ex1
 	public static final double[] ZERO = {0};
 	/**
 	 * Computes the f(x) value of the polynomial function at x.
-     * If the polynom has leading zeros remove them, (they're useless) Except for the ZERO polynom.
+     * If the polynom has leading zeros remove them (they're useless).
      * For each element in the polynom add (x^i)*poly[i] to the answer.
 	 * @param poly the polynomial function
 	 * @param x the x value for the polynomial function
@@ -30,7 +30,7 @@ public class Ex1
 	 */
 	public static double f(double[] poly, double x)
     {
-        if(poly[poly.length - 1] == 0 && poly.length > 1){ poly = cutPolyLeadingZeros(poly);} // If the polynom has leading zeros remove them, Except for the ZERO polynom
+        if(poly[poly.length - 1] == 0){ poly = cutPolyLeadingZeros(poly);} // If the polynom has leading zeros remove them
         double ans = 0;
         for(int i=0;i<poly.length;i++) {
             double c = Math.pow(x, i);      // Computes the x element in the i position of the polynom as c=x^i
@@ -107,11 +107,11 @@ public class Ex1
 	 */
 	public static boolean equals(double[] p1, double[] p2)
     {
-        if(p1[p1.length - 1] == 0)
+        if(p1[p1.length - 1] == 0)                  // If p1 has leading zeros remove them
         {
             p1 = cutPolyLeadingZeros(p1);
         }
-        if(p2[p2.length - 1] == 0)
+        if(p2[p2.length - 1] == 0)                  // If p2 has leading zeros remove them
         {
             p2 = cutPolyLeadingZeros(p2);
         }
@@ -152,7 +152,7 @@ public class Ex1
      */
     private static double[] cutPolyLeadingZeros(double[] p)
     {
-        if (p[p.length - 1] == 0)
+        if (p[p.length - 1] == 0 && p.length > 1)
         {
             int zerosToRemove = 0;
             for (int i = p.length - 1; i > 0; i--)
