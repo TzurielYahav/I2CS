@@ -143,19 +143,25 @@ public class Ex1
      */
     private static double[] cutPolyLeadingZeros(double[] p)
     {
-        int zerosToRemove = 0;
-        for (int i = p.length - 1; i > 0; i--)
+        if (p[p.length - 1] == 0)
         {
-            if (p[i] == 0)
+            int zerosToRemove = 0;
+            for (int i = p.length - 1; i > 0; i--)
             {
-                zerosToRemove++;
+                if (p[i] == 0)
+                {
+                    zerosToRemove++;
+                }
+                else
+                {
+                    i = -1;
+                }
             }
-            else
-            {
-                i = -1;
-            }
+            if (zerosToRemove == p.length)
+                return ZERO;
+            return Arrays.copyOfRange(p, 0, p.length - zerosToRemove);
         }
-        return Arrays.copyOfRange(p, 0, p.length - zerosToRemove);
+        return p;
     }
 
 	/** 
@@ -295,31 +301,14 @@ public class Ex1
             a2 = a1 + xSampleLength;
             b21 = f(p1,a2);
             b22 = f(p2,a2);
-            if(b11 >= b12)
+            if((b11 - b12) * (b21 - b22) >= 0)
             {
-                if(b21 >= b22)
-                {
-                    ans += b11 - b12;
-                    ans += b21 - b22;
-                }
-                else
-                {
-                    double intersectionX = sameValue(p1, p2, a1, a2, EPS);
-                    trianglesArea += ((b11 - b12) * (intersectionX - a1) + (b22 - b21) * (a2 - intersectionX)) / 2;
-                }
+                ans += Math.abs(b11 - b12) + Math.abs(b21 - b22);
             }
             else
             {
-                if(b22 >= b21)
-                {
-                    ans += b12 - b11;
-                    ans += b22 - b21;
-                }
-                else
-                {
-                    double intersectionX = sameValue(p1, p2, a1, a2, EPS);
-                    trianglesArea += ((b12 - b11) * (intersectionX - a1) + (b21 - b22) * (a2 - intersectionX)) / 2;
-                }
+                double intersectionX = sameValue(p1, p2, a1, a2, EPS);
+                trianglesArea += (Math.abs(b11 - b12) * (intersectionX - a1) + Math.abs(b22 - b21) * (a2 - intersectionX)) / 2;
             }
             a1 += xSampleLength;
             b11 = b21;
@@ -395,6 +384,7 @@ public class Ex1
         }
 		return ans;
 	}
+
 	/**
 	 * This function computes the polynomial function which is the sum of two polynomial functions (p1,p2)
 	 * @param p1
@@ -406,58 +396,25 @@ public class Ex1
         double[] shortPoly;
         if (p1.length == 0 || p2.length == 0)
         {
-            if (p1.length == 0)
-            {
-                if (p2.length == 0)
-                {
-                    return ans;
-                }
-                return p2;
-            }
-            return p1;
+            return null;
         }
         if (p1.length >= p2.length)
         {
             ans = Arrays.copyOfRange(p1, 0, p1.length);
-            shortPoly = Arrays.copyOfRange(p2, 0, p2.length);
+            for (int i = 0; i < p2.length; i++)
+            {
+                ans[i] += p2[i];
+            }
         }
         else
         {
             ans = Arrays.copyOfRange(p2, 0, p2.length);
-            shortPoly = Arrays.copyOfRange(p1, 0, p1.length);
-        }
-        for (int i = 0; i < shortPoly.length; i++)
-        {
-            ans[i] += shortPoly[i];
-        }
-        if (ans[ans.length - 1] == 0)
-        {
-            int cutLengthCount = 0;
-            for (int i=ans.length-1;i>=0;i--)
+            for (int i = 0; i < p1.length; i++)
             {
-                if (ans[i] == 0)
-                {
-                    cutLengthCount++;
-                }
-                else
-                {
-                    i = -1;
-                }
-            }
-            if (cutLengthCount != 0)
-            {
-                if (cutLengthCount == ans.length)
-                {
-                    ans = ZERO;
-                }
-                else
-                {
-                    double[] cutAns = new double[ans.length - cutLengthCount];
-                    cutAns = Arrays.copyOfRange(ans, 0, cutAns.length);
-                    return  cutAns;
-                }
+                ans[i] += p1[i];
             }
         }
+        ans = cutPolyLeadingZeros(ans);
 		return ans;
 	}
 	/**
