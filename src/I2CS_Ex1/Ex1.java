@@ -221,11 +221,11 @@ public class Ex1
      * If not it checks if the polynoms intersect in the first half of the range and continue in that range.
      * If not it checks if the range [x1,x2] is almost zero, if yes we didn't find any intersection point.
      * Else continue in the second half
-	 * @param p1 - first polynomial function
-	 * @param p2 - second polynomial function
-	 * @param x1 - minimal value of the range
-	 * @param x2 - maximal value of the range
-	 * @param eps - epsilon (positive small value (often 10^-3, or 10^-6).
+	 * @param p1 first polynomial function
+	 * @param p2 second polynomial function
+	 * @param x1 minimal value of the range
+	 * @param x2 maximal value of the range
+	 * @param eps epsilon (positive small value (often 10^-3, or 10^-6).
 	 * @return an x value (x1<=x<=x2) for which |p1(x) - p2(x)| < eps.
 	 */
 	public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps)
@@ -251,9 +251,9 @@ public class Ex1
      * The function divides the range [x1,x2] into equal segments according to the number of segments
      * For each segment it takes the start and end points in the function for that segment,
      * and calculates the distance between them using the 'distanceOf2Points' function.
-	 * @param p - the polynomial function
-	 * @param x1 - minimal value of the range
-	 * @param x2 - maximal value of the range
+	 * @param p the polynomial function
+	 * @param x1 minimal value of the range
+	 * @param x2 maximal value of the range
 	 * @param numberOfSegments - (A positive integer value (1,2,...).
 	 * @return the length approximation of the function between f(x1) and f(x2).
 	 */
@@ -280,21 +280,31 @@ public class Ex1
      * Given two points (x1,y1) , (x2,y2).
      * This function computes the distance between the two points.
      * The area is computed using (https://www.mathsisfun.com/algebra/distance-2-points.html)
-     * @param x1 - first point's x value
-     * @param x2 - second point's x value
-     * @param y1 - first point's y value
-     * @param y2 - second point's y value
+     * distance of (x1,y1) (x2,y2) == sqrt((x2 - x1)^2 + (y2 - y1)^2)
+     * @param x1 first point's x value
+     * @param x2 second point's x value
+     * @param y1 first point's y value
+     * @param y2 second point's y value
      * @return the distance between the points.
      */
     private static double distanceOf2Points(double x1,double x2, double y1, double y2)
     {
-        return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2));
+        return Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2)); // algorithm is in the web page
     }
 	
 	/**
 	 * Given two polynomial functions (p1,p2), a range [x1,x2] and an integer representing the number of Trapezoids between the functions (number of samples in on each polynom).
 	 * This function computes an approximation of the area between the polynomial functions within the x-range.
 	 * The area is computed using Riemann's like integral (https://en.wikipedia.org/wiki/Riemann_integral)
+     * The function divides the range [x1,x2] into equal segments according to the number of segments
+     * For each segment it calculates the start and end points in the functions for that segment,
+     * It checks if the functions intersect at that segment.
+     * If they intersect it finds the intersection point and calculates the area of the triangles that are created.
+     * If they don't intersect it calculates the area of the trapezoid that is created.
+     * Area of trapezoid -> (a + b) * h / 2  |  where a,b are the sides of the trapezoids (|f1(a1)-f2(a1)| , |f1(a2)-f2(a2)|), and h is the segment length,
+     * After taking out common element for all trapezoids - ((a1 + b1) + ... + (ax + bx)) * h / 2
+     * We just add all of the sides of the trapezoids together and multiply by the common element.
+     * At the end we add the area of the triangles to the trapezoids.
 	 * @param p1 - first polynomial function
 	 * @param p2 - second polynomial function
 	 * @param x1 - minimal value of the range
@@ -304,35 +314,35 @@ public class Ex1
 	 */
 	public static double area(double[] p1,double[]p2, double x1, double x2, int numberOfTrapezoid)
     {
-        double ans = 0;
-        double trianglesArea = 0;
-        double xSampleLength = (x2 - x1) / numberOfTrapezoid;
-        double a1 = x1;
-        double a2 = 0;
-        double b11 = f(p1,a1);
-        double b12 = f(p2,a1);
-        double b21 = 0;
-        double b22 = 0;
+        double ans = 0;                                             // The sum of the area of the trapezoids
+        double trianglesArea = 0;                                   // The sum of the area of the triangles when needed
+        double xSampleLength = (x2 - x1) / numberOfTrapezoid;       // The x length of one segment
+        double a1 = x1;                                             // a1 is the start x coord of the current segment
+        double a2 = 0;                                              // a2 is the end x coord of the current segment
+        double b11 = f(p1,a1);                                      // b11 is the f1(a1) coord of the current segment
+        double b12 = f(p2,a1);                                      // b12 is the f2(a1) coord of the current segment
+        double b21 = 0;                                             // b21 is the f1(a2) coord of the current segment
+        double b22 = 0;                                             // b22 is the f2(a2) coord of the current segment
         for(int i=0;i<numberOfTrapezoid;i++)
         {
-            a2 = a1 + xSampleLength;
-            b21 = f(p1,a2);
-            b22 = f(p2,a2);
-            if((b11 - b12) * (b21 - b22) >= 0)
+            a2 = a1 + xSampleLength;                                // Calc a2 for the current segment
+            b21 = f(p1,a2);                                         // Calc b21 for the current segment
+            b22 = f(p2,a2);                                         // Calc b22 for the current segment
+            if((b11 - b12) * (b21 - b22) >= 0)                      // If there is NO intersection in the current segment
             {
-                ans += Math.abs(b11 - b12) + Math.abs(b21 - b22);
+                ans += Math.abs(b11 - b12) + Math.abs(b21 - b22);   // add the sides of the segment to the trapezoid calculation
             }
-            else
+            else                                                    // If there IS an intersection in the current segment
             {
-                double intersectionX = sameValue(p1, p2, a1, a2, EPS);
-                trianglesArea += (Math.abs(b11 - b12) * (intersectionX - a1) + Math.abs(b22 - b21) * (a2 - intersectionX)) / 2;
+                double intersectionX = sameValue(p1, p2, a1, a2, EPS);  // Find the x point of intersection
+                trianglesArea += (Math.abs(b11 - b12) * (intersectionX - a1) + Math.abs(b22 - b21) * (a2 - intersectionX)) / 2; // Divide the segment into two triangles at the intersection point and calc the area of the triangles
             }
             a1 += xSampleLength;
             b11 = b21;
             b12 = b22;
         }
-        ans *= xSampleLength / 2;
-        ans += trianglesArea;
+        ans *= xSampleLength / 2;                                   // Finish the trapezoid calc for all of the segments
+        ans += trianglesArea;                                       // Add the triangles area
 		return ans;
 	}
 
