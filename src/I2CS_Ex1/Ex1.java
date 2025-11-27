@@ -99,7 +99,8 @@ public class Ex1
 		}
 		return ans;
 	}
-	/** Two polynomials functions are equal if and only if they have the same values f(x) for n+1 values of x,
+
+    /** Two polynomials functions are equal if and only if they have the same values f(x) for n+1 values of x,
 	 * where n is the max degree (over p1, p2) - up to an epsilon (aka EPS) value.
      * The function first checks if the polynoms are from the same degree,
      * and then checks if the difference between the values of the polynoms
@@ -133,31 +134,33 @@ public class Ex1
 	}
 
     /**
-     * Given two points (x1,y1) , (x2,y2).
-     * This function computes the distance between the two points.
-     * The area is computed using (https://www.mathsisfun.com/algebra/distance-2-points.html)
-     * @param p - first point's x value
-     * @return the distance between the points.
+     * This function takes a polynom and checks if there are leading zeros in the array of the polynom.
+     * If there are it removes them from the array.
+     * The function checks if there are any zeros to remove, and if this is not the ZERO array.
+     * Then it loops over the array until it reaches a non zero element and counts the amount of zeros to remove.
+     * If the whole array is zeros it returns the zero array, else it returns a new array without the zeros.
+     * @param p the polynom to check
+     * @return the new polynom array without the leading zeros.
      */
     private static double[] cutPolyLeadingZeros(double[] p)
     {
-        if (p[p.length - 1] == 0 && p.length > 1)
+        if (p[p.length - 1] == 0 && p.length > 1)   // If the element in the last place of the array is  a 0, and this is not the ZERO array
         {
             int zerosToRemove = 0;
-            for (int i = p.length - 1; i > 0; i--)
+            for (int i = p.length - 1; i > 0; i--)  // A loop to go over the array from last place to first
             {
-                if (p[i] == 0)
+                if (p[i] == 0)                      // If the element is a zero add one more to remove
                 {
                     zerosToRemove++;
                 }
-                else
+                else                                // else (we reached a non zero element) exit the loop
                 {
                     i = -1;
                 }
             }
-            if (zerosToRemove == p.length)
+            if (zerosToRemove == p.length)          // if the amount to remove is the whole array return the zero array
                 return ZERO;
-            return Arrays.copyOfRange(p, 0, p.length - zerosToRemove);
+            return Arrays.copyOfRange(p, 0, p.length - zerosToRemove); // make a new array without the leading zeros
         }
         return p;
     }
@@ -165,35 +168,41 @@ public class Ex1
 	/** 
 	 * Computes a String representing the polynomial function.
 	 * For example the array {2,0,3.1,-1.2} will be presented as the following String  "-1.2x^3 +3.1x^2 +2.0"
+     * The function goes over the polynom in a loop from last to first and for each element:
+     * 1. It checks if it's not a zero.
+     * 2. Adds the sign (+,-) and the coefficient of x
+     * 3. an x if needed.
+     * 4. a '^' and the power if needed.
+     * 5. a space if it's not the last element.
 	 * @param poly the polynomial function represented as an array of doubles
 	 * @return String representing the polynomial function:
 	 */
 	public static String poly(double[] poly)
     {
 		StringBuilder ans = new StringBuilder();
-		if(poly.length==0) {
-            ans = new StringBuilder("0");}
+		if(poly.length==0) {                            // if the array has no elements return an empty string
+            ans = new StringBuilder();}
 		else
         {
-            for (int i=poly.length-1;i>=0;i--)
+            for (int i=poly.length-1;i>=0;i--)          // A loop to go over the array from end to start
             {
-                if(poly[i] != 0)
+                if(poly[i] != 0)                        // If the current element is not a zero then we add it
                 {
-                    if(!ans.isEmpty() && poly[i] > 0)
+                    if(!ans.isEmpty() && poly[i] > 0)   // If the element is a positive number and not the first one add a plus - ("5x +5")
                     {
                         ans.append("+");
                     }
-                    ans.append(poly[i]);
-                    if(i > 0)
+                    ans.append(poly[i]);                // Add the element number to the string
+                    if(i > 0)                           // If the element's x is not to the power of 0, add an x to the string
                     {
                         ans.append("x");
                     }
-                    if(i > 1)
+                    if(i > 1)                           // If the element's x power is higher than 1, add an ^ to the string and the power (i)
                     {
                         ans.append("^");
                         ans.append(i);
                     }
-                    if (i > 0)
+                    if (i > 0)                          // If this is not the last element add a space after it
                     {
                         ans.append(" ");
                     }
@@ -205,6 +214,13 @@ public class Ex1
 	/**
 	 * Given two polynomial functions (p1,p2), a range [x1,x2] and an epsilon eps. This function computes an x value (x1<=x<=x2)
 	 * for which |p1(x) -p2(x)| < eps, assuming (p1(x1)-p2(x1)) * (p1(x2)-p2(x2)) <= 0.
+     * The function removes leading zeros from the functions,
+     * Then calculates the f(x1) for both polynoms,
+     * The middle x of the range [x1,x2] and the f(x12) for the middle range for both polynoms.
+     * Then it checks if the middle point is the intersection point,
+     * If not it checks if the polynoms intersect in the first half of the range and continue in that range.
+     * If not it checks if the range [x1,x2] is almost zero, if yes we didn't find any intersection point.
+     * Else continue in the second half
 	 * @param p1 - first polynomial function
 	 * @param p2 - second polynomial function
 	 * @param x1 - minimal value of the range
@@ -214,17 +230,17 @@ public class Ex1
 	 */
 	public static double sameValue(double[] p1, double[] p2, double x1, double x2, double eps)
     {
-        if(p1[p1.length - 1] == 0){ p1 = cutPolyLeadingZeros(p1);}
-        if(p2[p2.length - 1] == 0){ p2 = cutPolyLeadingZeros(p2);}
-        double f1 = f(p1,x1);
-        double f2 = f(p2,x1);
-        double x12 = (x1+x2)/2;
-        double f12 = f(p1,x12);
-        double f22 = f(p2,x12);
-        if (Math.abs(f12 - f22) < eps) {return x12;}
-        if((f12 - f22) * (f1 - f2) <= 0) {return sameValue(p1, p2, x1, x12, eps);}
-        if (Math.abs(x2-x1)<EPS * EPS) {return Double.NaN;}
-        return sameValue(p1, p2, x12, x2, eps);
+        if(p1[p1.length - 1] == 0){ p1 = cutPolyLeadingZeros(p1);}  // Remove leading zeros form the first array
+        if(p2[p2.length - 1] == 0){ p2 = cutPolyLeadingZeros(p2);}  // Remove leading zeros form the second array
+        double f1 = f(p1,x1);                                       // Calc the f(x1) for the first function
+        double f2 = f(p2,x1);                                       // Calc the f(x1) for the second function
+        double x12 = (x1+x2)/2;                                     // Calc the x of the middle of the range [x1,x2]
+        double f12 = f(p1,x12);                                     // Calc the f(x12) for the first function
+        double f22 = f(p2,x12);                                     // Calc the f(x12) for the second function
+        if (Math.abs(f12 - f22) < eps) {return x12;}                // If the difference of the functions at the middle x is almost zero return the middle x
+        if((f12 - f22) * (f1 - f2) <= 0) {return sameValue(p1, p2, x1, x12, eps);} // If the functions switch between upper and lower in the first half of the range, check the first half
+        if (Math.abs(x2-x1)<EPS * EPS) {return Double.NaN;}         // If the range [x1,x2] is almost zero we didn't find an intersection point
+        return sameValue(p1, p2, x12, x2, eps);                     // Else check the second half
 	}
 	/**
 	 * Given a polynomial function (p), a range [x1,x2] and an integer with the number (n) of sample points.
