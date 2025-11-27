@@ -248,6 +248,9 @@ public class Ex1
 	 * using n inner sample points and computing the segment-path between them.
 	 * assuming x1 < x2. 
 	 * This function should be implemented iteratively (none recursive).
+     * The function divides the range [x1,x2] into equal segments according to the number of segments
+     * For each segment it takes the start and end points in the function for that segment,
+     * and calculates the distance between them using the 'distanceOf2Points' function.
 	 * @param p - the polynomial function
 	 * @param x1 - minimal value of the range
 	 * @param x2 - maximal value of the range
@@ -257,16 +260,16 @@ public class Ex1
 	public static double length(double[] p, double x1, double x2, int numberOfSegments)
     {
 		double ans = 0;
-        double xSampleLength = (x2 - x1) / numberOfSegments;
-        double a1 = x1;
-        double a2 = 0;
-        double b1 = f(p,a1);
-        double b2 = 0;
+        double xSampleLength = (x2 - x1) / numberOfSegments;    // Calc the x length of each segment
+        double a1 = x1;                                         // a1 is the start x coord of the current segment
+        double a2 = 0;                                          // a1 is the end x coord of the current segment
+        double b1 = f(p,a1);                                    // b1 is the start y coord of the current segment
+        double b2 = 0;                                          // b2 is the end y coord of the current segment
         for(int i=0;i<numberOfSegments;i++)
         {
-            a2 = a1 + xSampleLength;
-            b2 = f(p,a2);
-            ans += distanceOf2Points(a1,a2,b1,b2);
+            a2 = a1 + xSampleLength;                            // Calc a2 for the current segment
+            b2 = f(p,a2);                                       // Calc b2 for the current segment
+            ans += distanceOf2Points(a1,a2,b1,b2);              // Calc distance between (a1,b1) (a2,b2) for the current segment and add it to the sum
             a1 = a2;
             b1 = b2;
         }
