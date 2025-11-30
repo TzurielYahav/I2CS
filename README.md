@@ -21,5 +21,5 @@ This class represents a set of static methods on a polynomial functions - repres
 
 ## Usage
 After cloning the repository to IntelliJ, run Ex1_GUI.java to get the following result:
-![img_1.png](img_1.png)
+![img.png](img.png)
 This image shows the graphs of two polynomials [Green - 0.08x^3-0.06x^2-1.4x+1.0] and [Blue - 0.02x^4-0.02x^3-0.7x^2+1.0x+2.0], below the graph you can see the calculated x values of their intersection points, and the area between them.
