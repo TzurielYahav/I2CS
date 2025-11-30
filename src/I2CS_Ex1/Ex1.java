@@ -5,8 +5,7 @@ import java.util.Arrays;
 /**
  * Introduction to Computer Science 2026, Ariel University,
  * Ex1: arrays, static functions and JUnit
- * https://docs.google.com/document/d/1GcNQht9rsVVSt153Y8pFPqXJVju56CY4/edit?usp=sharing&ouid=113711744349547563645&rtpof=true&sd=true
- *
+ * <a href="https://docs.google.com/document/d/1GcNQht9rsVVSt153Y8pFPqXJVju56CY4/edit?usp=sharing&ouid=113711744349547563645&rtpof=true&sd=true">...</a>
  * This class represents a set of static methods on a polynomial functions - represented as an array of doubles.
  * The array {0.1, 0, -3, 0.2} represents the following polynomial function: 0.2x^3-3x^2+0.1
  * This is the main Class you should implement (see "add your code below")
@@ -64,23 +63,23 @@ public class Ex1
 	}
 
 	/**
-	 * This function computes a polynomial representation from a set of 2D points on the polynom.
-	 * The solution is based on: //	http://stackoverflow.com/questions/717762/how-to-calculate-the-vertex-of-a-parabola-given-three-points
-	 * Note: this function only works for a set of points containing up to 3 points, else returns null.
+     * This function computes a polynomial representation from a set of 2D points on the polynom.
+     * The solution is based on: //	<a href="http://stackoverflow.com/questions/717762/how-to-calculate-the-vertex-of-a-parabola-given-three-points">...</a>
+     * Note: this function only works for a set of points containing up to 3 points, else returns null.
      * The Function builds two types of polynoms from two different inputs:
      * A first degree polynom Ax+B from two points,
      * or a second degree polynom Ax^2+Bx+C from three points
      * the Function computes the coefficients A,B,C from the points and puts it in an array
-	 * @param xx the x values of the points in order
-	 * @param yy the y values of the points in order
-	 * @return an array of doubles representing the coefficients of the polynom.
-	 */
+     * @param xx the x values of the points in order
+     * @param yy the y values of the points in order
+     * @return an array of doubles representing the coefficients of the polynom.
+     */
 	public static double[] polynomFromPoints(double[] xx, double[] yy)
     {
 		double [] ans = null;
 		int lx = xx.length;
 		int ly = yy.length;
-		if(xx!=null && yy!=null && lx==ly && lx>1 && lx<4)  // checks if the input is valid
+		if(lx == ly && lx > 1 && lx < 4)  // checks if the input is valid
         {
             if(lx == 2)                                     // if there are only two points
             {
@@ -279,7 +278,7 @@ public class Ex1
     /**
      * Given two points (x1,y1) , (x2,y2).
      * This function computes the distance between the two points.
-     * The area is computed using (https://www.mathsisfun.com/algebra/distance-2-points.html)
+     * The area is computed using (<a href="https://www.mathsisfun.com/algebra/distance-2-points.html">...</a>)
      * distance of (x1,y1) (x2,y2) == sqrt((x2 - x1)^2 + (y2 - y1)^2)
      * @param x1 first point's x value
      * @param x2 second point's x value
@@ -293,9 +292,9 @@ public class Ex1
     }
 	
 	/**
-	 * Given two polynomial functions (p1,p2), a range [x1,x2] and an integer representing the number of Trapezoids between the functions (number of samples in on each polynom).
-	 * This function computes an approximation of the area between the polynomial functions within the x-range.
-	 * The area is computed using Riemann's like integral (https://en.wikipedia.org/wiki/Riemann_integral)
+     * Given two polynomial functions (p1,p2), a range [x1,x2] and an integer representing the number of Trapezoids between the functions (number of samples in on each polynom).
+     * This function computes an approximation of the area between the polynomial functions within the x-range.
+     * The area is computed using Riemann's like integral (<a href="https://en.wikipedia.org/wiki/Riemann_integral">...</a>)
      * The function divides the range [x1,x2] into equal segments according to the number of segments
      * For each segment it calculates the start and end points in the functions for that segment,
      * It checks if the functions intersect at that segment.
@@ -305,13 +304,13 @@ public class Ex1
      * After taking out common element for all trapezoids - ((a1 + b1) + ... + (ax + bx)) * h / 2
      * We just add all of the sides of the trapezoids together and multiply by the common element.
      * At the end we add the area of the triangles to the trapezoids.
-	 * @param p1 - first polynomial function
-	 * @param p2 - second polynomial function
-	 * @param x1 - minimal value of the range
-	 * @param x2 - maximal value of the range
-	 * @param numberOfTrapezoid - a natural number representing the number of Trapezoids between x1 and x2.
-	 * @return the approximated area between the two polynomial functions within the [x1,x2] range.
-	 */
+     * @param p1 - first polynomial function
+     * @param p2 - second polynomial function
+     * @param x1 - minimal value of the range
+     * @param x2 - maximal value of the range
+     * @param numberOfTrapezoid - a natural number representing the number of Trapezoids between x1 and x2.
+     * @return the approximated area between the two polynomial functions within the [x1,x2] range.
+     */
 	public static double area(double[] p1,double[]p2, double x1, double x2, int numberOfTrapezoid)
     {
         double ans = 0;                                             // The sum of the area of the trapezoids
@@ -377,45 +376,58 @@ public class Ex1
                 ans = new double[1];
             }
             // ============ Build Poly ============
-            for(int i=0;i<splitString.length;i++)
-            {
+            for (String s : splitString) {
                 // ============ Get Pow ============
-                int pow = -1;
-                if (splitString[i].contains("^"))                   // If the element power is greater than 1
-                {
-                    pow = Integer.parseInt(splitString[i].split("\\^")[1]);
-                }
-                else if(splitString[i].contains("x"))               // Else if the element power is 1
-                {
-                    pow = 1;
-                }
-                else                                                // Else the element power is 0
-                {
-                    pow = 0;
-                }
+                int pow = getPow(s);                                 // Get the power of the element
                 // ============ Get Coefficient ============
-                if(pow > 0)                                         // We need to split the string if there is an x
+                if (pow > 0)                                         // We need to split the string if there is an x
                 {
-                    String a = splitString[i].split("x")[0];
-                    if(a.isEmpty())                                 // If there is no number before the x in the string - ("x^2")
+                    String a = s.split("x")[0];
+                    if (a.isEmpty())                                 // If there is no number before the x in the string - ("x^2")
                     {
                         ans[pow] = 1;
-                    }
+                    } 
                     else                                            // Else get the number
                     {
                         ans[pow] = Double.parseDouble(a);
                     }
-                }
+                } 
                 else                                                // There is no x, just a number in the string
                 {
-                    ans[pow] = Double.parseDouble(splitString[i]);
+                    ans[pow] = Double.parseDouble(s);
                 }
             }
         }
 		return ans;
 	}
 
-	/**
+    /**
+     * This function finds the power of a string representing a polynom from type "Ax^n"
+     * The function checks if the string contains a '^' and splits the string to find the power.
+     * Else the function checks if the string contains an 'x' -> the power is 1.
+     * Else the power is 0.
+     * @param s the string to find the power of.
+     * @return the power of the polynom in the string.
+     */
+    private static int getPow(String s)
+    {
+        int pow = -1;
+        if (s.contains("^"))                    // If the element power is greater than 1
+        {
+            pow = Integer.parseInt(s.split("\\^")[1]);
+        }
+        else if (s.contains("x"))               // Else if the element power is 1
+        {
+            pow = 1;
+        }
+        else                                    // Else the element power is 0
+        {
+            pow = 0;
+        }
+        return pow;
+    }
+
+    /**
 	 * This function computes the polynomial function which is the sum of two polynomial functions (p1,p2)
      * The function checks which is the longer polynom of p1,p2.
      * the function copies the longer polynom to the answer
@@ -485,7 +497,7 @@ public class Ex1
      * The function creates a new array with length of po - 1,
      * and then loops over each element at index in po,
      * calculates the derivative and puts it in answer at index - 1
-	 * @param po the polynom to differentiate
+	 * @param po the polynomial to differentiate
 	 * @return an array representing the derivative of po
 	 */
 	public static double[] derivative (double[] po) {
