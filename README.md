@@ -23,7 +23,7 @@ npm install
 ```
 After cloning the repository to IntelliJ, run Ex1_GUI.java to get the following result:
 ```
-
+![img.png](img.png)
 ```
 
 
