@@ -11,15 +11,15 @@ This repository contains the following Projects:
 1. Ex_0 - https://github.com/TzurielYahav/I2CS/tree/b952321cdc184510221615ae215543cea6044f86/src/I2CS_Ex0
 2. Ex_1 - https://github.com/TzurielYahav/I2CS/tree/b952321cdc184510221615ae215543cea6044f86/src/I2CS_Ex1
 
-## Assignment 0 - prime numbers
+### Assignment 0 - prime numbers
 The definition of the Ex0 can be found here: <a href="https://docs.google.com/document/d/1UtngN203ttQKf5ackCnXs4UnbAROZWHr/edit?usp=sharing&ouid=113711744349547563645&rtpof=true&sd=true">Assignment 0</a>
 
 
-## Assignment 1 - arrays, static functions and JUnit
+### Assignment 1 - arrays, static functions and JUnit
 The definition of the Ex1 can be found here: <a href="https://docs.google.com/document/d/1GcNQht9rsVVSt153Y8pFPqXJVju56CY4/edit?usp=sharing&ouid=113711744349547563645&rtpof=true&sd=true">Assignment 1</a>
 This class represents a set of static methods on a polynomial functions - represented as an array of doubles.
 
-## Usage
+#### Usage
 After cloning the repository to IntelliJ, run Ex1_GUI.java to get the following result:
 ![img.png](img.png)
 
