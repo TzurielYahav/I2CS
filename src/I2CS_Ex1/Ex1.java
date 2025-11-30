@@ -350,9 +350,12 @@ public class Ex1
 	 * This function computes the array representation of a polynomial function from a String
 	 * representation. Note:given a polynomial function represented as a double array,
 	 * getPolynomFromString(poly(p)) should return an array equals to p.
-	 * 
-	 * @param p - a String representing polynomial function.
-	 * @return
+	 * The function gets a string from type "-1.2x^3 +3.1x^2 +2.0", splits the input string to elements by spaces.
+     * If the string is not empty it finds the highest power of the polynom in the string to determine the length of the array.
+     * The function loops over the string elements and for each it finds the power (to determine the position in the array)
+     * And then the coefficient of the element to put in the array
+	 * @param p a String representing polynomial function.
+	 * @return the array representing the polynom in the string p.
 	 */
 	public static double[] getPolynomFromString(String p)
     {
@@ -414,55 +417,63 @@ public class Ex1
 
 	/**
 	 * This function computes the polynomial function which is the sum of two polynomial functions (p1,p2)
-	 * @param p1
-	 * @param p2
-	 * @return
+     * The function checks which is the longer polynom of p1,p2.
+     * the function copies the longer polynom to the answer
+     * and then loops over the shorter polynom and adds it to the answer.
+     * At the end it removes any leading zeros from the answer.
+	 * @param p1 the first polynom to add.
+	 * @param p2 the second polynom to add.
+	 * @return an array representing the outcome of the addition of p1,p2.
 	 */
 	public static double[] add(double[] p1, double[] p2) {
 		double [] ans = ZERO;
         double[] shortPoly;
-        if (p1.length == 0 || p2.length == 0)
+        if (p1.length == 0 || p2.length == 0)                // If one of the polynoms is null don't preform the addition
         {
             return null;
         }
         if (p1.length >= p2.length)
         {
-            ans = Arrays.copyOfRange(p1, 0, p1.length);
+            ans = Arrays.copyOfRange(p1, 0, p1.length); // Copy the longer polynom (p1) to the answer
             for (int i = 0; i < p2.length; i++)
             {
-                ans[i] += p2[i];
+                ans[i] += p2[i];                             // For each element of the shorter polynom, add it to the answer
             }
         }
         else
         {
-            ans = Arrays.copyOfRange(p2, 0, p2.length);
+            ans = Arrays.copyOfRange(p2, 0, p2.length); // Copy the longer polynom (p2) to the answer
             for (int i = 0; i < p1.length; i++)
             {
-                ans[i] += p1[i];
+                ans[i] += p1[i];                             // For each element of the shorter polynom, add it to the answer
             }
         }
-        ans = cutPolyLeadingZeros(ans);
+        ans = cutPolyLeadingZeros(ans);                      // If there are leading zeros remove them
 		return ans;
 	}
 
     /**
-	 * This function computes the polynomial function which is the multiplication of two polynoms (p1,p2)
-	 * @param p1
-	 * @param p2
-	 * @return
+	 * This function computes the polynomial function which is the multiplication of two polynoms (p1,p2).
+     * The function makes a new array with the length of the highest power in the outcome
+     * (the sum of the highest powers of each polynom),
+     * loops over each element in p1 (that is not 0) and multilies it with each element in p2,
+     * and adds the answer to the outcome array at the index of the sum of the powers of the elements multiplied.
+	 * @param p1 the first polynom to multiply
+	 * @param p2 the second polynom to multiply
+	 * @return an array representing the outcome of the multiplication of p1,p2.
 	 */
 	public static double[] mul(double[] p1, double[] p2) {
 		double [] ans = ZERO;
-        if (p1.length == 0 || p2.length == 0)
+        if (p1.length == 0 || p2.length == 0)           // If one of the polynoms is null don't preform the multiplication
             return null;
-        ans = new double[p1.length + p2.length - 1];
+        ans = new double[p1.length + p2.length - 1];    // Make a new array with the length of the highest power in the answer
         for (int i = 0; i < p1.length; i++)
         {
-            if(p1[i] != 0)
+            if(p1[i] != 0)                              // For each element in p1 if it's not zero multiply it with every element in p2
             {
                 for (int j = 0; j < p2.length; j++)
                 {
-                    ans[i+j] +=  p1[i] * p2[j];
+                    ans[i+j] +=  p1[i] * p2[j];         // Put the outcome of the multiplication at the index of the sum of the powers
                 }
             }
         }
