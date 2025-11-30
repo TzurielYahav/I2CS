@@ -17,7 +17,9 @@ The definition of the Ex0 can be found here: <a href="https://docs.google.com/do
 
 ### Assignment 1 - arrays, static functions and JUnit
 The definition of the Ex1 can be found here: <a href="https://docs.google.com/document/d/1GcNQht9rsVVSt153Y8pFPqXJVju56CY4/edit?usp=sharing&ouid=113711744349547563645&rtpof=true&sd=true">Assignment 1</a>
+
 This class represents a set of static methods on a polynomial functions - represented as an array of doubles.
+
 
 #### Usage
 After cloning the repository to IntelliJ, run Ex1_GUI.java to get the following result:
