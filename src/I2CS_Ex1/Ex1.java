@@ -482,19 +482,22 @@ public class Ex1
 
     /**
 	 * This function computes the derivative of the p0 polynomial function.
-	 * @param po
-	 * @return
+     * The function creates a new array with length of po - 1,
+     * and then loops over each element at index in po,
+     * calculates the derivative and puts it in answer at index - 1
+	 * @param po the polynom to differentiate
+	 * @return an array representing the derivative of po
 	 */
 	public static double[] derivative (double[] po) {
 		double [] ans = ZERO;
-        if (po.length < 2)
+        if (po.length < 2)                  // If the polynom has only Cx^0 return ZERO
         {
             return ans;
         }
         ans  = new double[po.length - 1];
         for (int i = 1; i < po.length; i++)
         {
-            ans[i-1] = po[i] * i;
+            ans[i-1] = po[i] * i;           // For element at index in po, calculate the derivative and put it in answer at index-1
         }
 		return ans;
 	}
