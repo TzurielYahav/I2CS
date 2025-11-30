@@ -261,9 +261,9 @@ public class Ex1
 		double ans = 0;
         double xSampleLength = (x2 - x1) / numberOfSegments;    // Calc the x length of each segment
         double a1 = x1;                                         // a1 is the start x coord of the current segment
-        double a2 = 0;                                          // a1 is the end x coord of the current segment
+        double a2;                                          // a1 is the end x coord of the current segment
         double b1 = f(p,a1);                                    // b1 is the start y coord of the current segment
-        double b2 = 0;                                          // b2 is the end y coord of the current segment
+        double b2;                                          // b2 is the end y coord of the current segment
         for(int i=0;i<numberOfSegments;i++)
         {
             a2 = a1 + xSampleLength;                            // Calc a2 for the current segment
@@ -317,11 +317,11 @@ public class Ex1
         double trianglesArea = 0;                                   // The sum of the area of the triangles when needed
         double xSampleLength = (x2 - x1) / numberOfTrapezoid;       // The x length of one segment
         double a1 = x1;                                             // a1 is the start x coord of the current segment
-        double a2 = 0;                                              // a2 is the end x coord of the current segment
+        double a2;                                              // a2 is the end x coord of the current segment
         double b11 = f(p1,a1);                                      // b11 is the f1(a1) coord of the current segment
         double b12 = f(p2,a1);                                      // b12 is the f2(a1) coord of the current segment
-        double b21 = 0;                                             // b21 is the f1(a2) coord of the current segment
-        double b22 = 0;                                             // b22 is the f2(a2) coord of the current segment
+        double b21;                                             // b21 is the f1(a2) coord of the current segment
+        double b22;                                             // b22 is the f2(a2) coord of the current segment
         for(int i=0;i<numberOfTrapezoid;i++)
         {
             a2 = a1 + xSampleLength;                                // Calc a2 for the current segment
@@ -411,20 +411,18 @@ public class Ex1
      */
     private static int getPow(String s)
     {
-        int pow = -1;
         if (s.contains("^"))                    // If the element power is greater than 1
         {
-            pow = Integer.parseInt(s.split("\\^")[1]);
+            return Integer.parseInt(s.split("\\^")[1]);
         }
         else if (s.contains("x"))               // Else if the element power is 1
         {
-            pow = 1;
+            return 1;
         }
         else                                    // Else the element power is 0
         {
-            pow = 0;
+            return 0;
         }
-        return pow;
     }
 
     /**
@@ -438,8 +436,7 @@ public class Ex1
 	 * @return an array representing the outcome of the addition of p1,p2.
 	 */
 	public static double[] add(double[] p1, double[] p2) {
-		double [] ans = ZERO;
-        double[] shortPoly;
+		double [] ans;
         if (p1.length == 0 || p2.length == 0)                // If one of the polynoms is null don't preform the addition
         {
             return null;
@@ -475,7 +472,7 @@ public class Ex1
 	 * @return an array representing the outcome of the multiplication of p1,p2.
 	 */
 	public static double[] mul(double[] p1, double[] p2) {
-		double [] ans = ZERO;
+		double [] ans;
         if (p1.length == 0 || p2.length == 0)           // If one of the polynoms is null don't preform the multiplication
             return null;
         ans = new double[p1.length + p2.length - 1];    // Make a new array with the length of the highest power in the answer
