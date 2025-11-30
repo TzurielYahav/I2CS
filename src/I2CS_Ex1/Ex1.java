@@ -356,21 +356,20 @@ public class Ex1
 	 */
 	public static double[] getPolynomFromString(String p)
     {
-        String[] splitString =  p.split(" ");
+        String[] splitString =  p.split(" ");                 // Make an array of strings, each index contains an element of the polynom
         double [] ans = ZERO;
-        if(splitString.length > 0)                                  //  "-1.0x^2 +3.0x +2.0"
+        if(splitString.length > 0)                                  // If the string wasn't empty
         {
-            // ============ Find Poly Power ============
-            int indexOfFirstPow = splitString[0].indexOf("^");
-            if(indexOfFirstPow > -1)
+            // ============ Find Power of Poly ============
+            if(splitString[0].contains("^"))                        // If the string highest power is greater than 1
             {
-                ans = new double[Integer.parseInt(splitString[0].split("\\^")[1]) + 1];
+                ans = new double[Integer.parseInt(splitString[0].split("\\^")[1]) + 1]; // Find the power
             }
-            else if (splitString[0].contains("x"))
+            else if (splitString[0].contains("x"))                  // If the string highest power is 1
             {
                 ans = new double[2];
             }
-            else
+            else                                                    // If the string highest power 0
             {
                 ans = new double[1];
             }
@@ -379,32 +378,32 @@ public class Ex1
             {
                 // ============ Get Pow ============
                 int pow = -1;
-                if (splitString[i].contains("^"))
+                if (splitString[i].contains("^"))                   // If the element power is greater than 1
                 {
                     pow = Integer.parseInt(splitString[i].split("\\^")[1]);
                 }
-                else if(splitString[i].contains("x"))
+                else if(splitString[i].contains("x"))               // Else if the element power is 1
                 {
                     pow = 1;
                 }
-                else
+                else                                                // Else the element power is 0
                 {
                     pow = 0;
                 }
                 // ============ Get Coefficient ============
-                if(pow > 0)
+                if(pow > 0)                                         // We need to split the string if there is an x
                 {
                     String a = splitString[i].split("x")[0];
-                    if(a.isEmpty())
+                    if(a.isEmpty())                                 // If there is no number before the x in the string - ("x^2")
                     {
                         ans[pow] = 1;
                     }
-                    else
+                    else                                            // Else get the number
                     {
                         ans[pow] = Double.parseDouble(a);
                     }
                 }
-                else
+                else                                                // There is no x, just a number in the string
                 {
                     ans[pow] = Double.parseDouble(splitString[i]);
                 }
