@@ -14,8 +14,4 @@ After cloning the repository to IntelliJ, run Ex1_GUI.java to get the following 
 
 
 ## Contents
-A link to the source code of the projects: https://github.com/TzurielYahav/I2CS/tree/b952321cdc184510221615ae215543cea6044f86/src
 
-This repository contains the following Projects:
-1. Ex_0 - https://github.com/TzurielYahav/I2CS/tree/b952321cdc184510221615ae215543cea6044f86/src/I2CS_Ex0
-2. Ex_1 - https://github.com/TzurielYahav/I2CS/tree/b952321cdc184510221615ae215543cea6044f86/src/I2CS_Ex1
